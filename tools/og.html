@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- The social image (og.png, 1200×630). Rebuild it with the site served on port 8000:
+     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --hide-scrollbars --window-size=1200,630 --screenshot=og.png http://localhost:8000/tools/og.html -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <title>Copperlight social image</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    html, body { width: 1200px; height: 630px; overflow: hidden; }
+    body::before { opacity: 0.05; }
+    .og { position: relative; isolation: isolate; height: 100%; padding: 64px 72px; display: grid; grid-template-columns: 1fr 520px; align-items: center; gap: 56px; --glow-y: 62%; --glow-strength: 0.34; }
+    .og.glow::before { left: 74%; width: 980px; }
+    .og__brand { position: absolute; top: 56px; left: 72px; display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 500; letter-spacing: -0.01em; }
+    .og h1 { font-size: 76px; line-height: 0.98; letter-spacing: -0.045em; }
+    .og p { margin-top: 22px; font-size: 21px; line-height: 1.45; color: var(--text-2); }
+    .og .launcher { width: 520px; }
+  </style>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true"><symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol></svg>
+  <div class="og glow">
+    <div class="og__brand"><img src="../mark.svg" width="24" height="24" alt="">Copperlight</div>
+    <div>
+      <h1>A warmer light than <span class="copper">Spotlight</span>.</h1>
+      <p>Free and open source, for Mac.</p>
+    </div>
+    <div class="launcher">
+      <div class="bar"><span class="bar__text">29.99 eur in usd</span><span class="caret" style="animation:none"></span></div>
+      <div class="results">
+        <div class="row is-selected"><span class="row__icon">$</span><span class="row__text"><span class="row__title">$34.79</span><span class="row__subtitle">29.99 Euros in US Dollars</span></span><span class="row__action">↵ Copy</span></div>
+        <div class="row"><span class="row__icon"><svg aria-hidden="true"><use href="#i-search"/></svg></span><span class="row__text"><span class="row__title">Search Google for “29.99 eur in usd”</span><span class="row__subtitle">Google</span></span><span class="row__action">↵ Search</span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
