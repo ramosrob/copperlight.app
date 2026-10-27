@@ -33,6 +33,7 @@
   <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4.5" width="14" height="16.5" rx="2.5"/><path d="M9 4.5v-.7c0-.7.6-1.3 1.3-1.3h3.4c.7 0 1.3.6 1.3 1.3v.7M9 11h6M9 15h4"/></symbol>
   <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
   <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="m4 17 4.5-4.5 3.5 3.5 2.5-2.5L20 18"/></symbol>
+  <symbol id="i-switch" viewBox="0 0 24 24"><rect x="3.5" y="7" width="17" height="10" rx="5"/><circle cx="15.5" cy="12" r="2.5" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-window" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M12 5v14"/><path d="M6 5h6v14H6a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 6 5z" fill="currentColor" stroke="none" opacity=".45"/></symbol>
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M11 4c.6 4.2 2.1 5.7 6.3 6.3-4.2.6-5.7 2.1-6.3 6.3-.6-4.2-2.1-5.7-6.3-6.3C8.9 9.7 10.4 8.2 11 4z"/><path d="M18 15c.2 1.7.9 2.4 2.5 2.6-1.6.2-2.3.9-2.5 2.6-.2-1.7-.9-2.4-2.5-2.6 1.6-.2 2.3-.9 2.5-2.6z"/></symbol>
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z"/></symbol>
@@ -91,8 +92,9 @@
         <button type="button" class="chip" data-query="3pm lisbon in sf">3pm lisbon in sf</button>
         <button type="button" class="chip" data-query="clip">clip</button>
         <button type="button" class="chip" data-query=":left">:left</button>
+        <button type="button" class="chip" data-query=":export pdf">:export pdf</button>
         <button type="button" class="chip" data-query="meetings">meetings</button>
-        <button type="button" class="chip" data-query="10 km in mi">10 km in mi</button>
+        <button type="button" class="chip" data-query="bluetooth">bluetooth</button>
         <button type="button" class="chip" data-query="define serendipity">define serendipity</button>
       </div>
       <div class="launcher demo">
@@ -113,7 +115,7 @@
         <div class="chapter__text">
           <p class="kicker">Find</p>
           <h2>Everything, from one field.</h2>
-          <p>Apps, files and folders, your browser's bookmarks and history, math, currency, units and time zones. No modes and no menus: start typing, press Enter.</p>
+          <p>Apps, files and folders, your browser's bookmarks and history, System Settings pages, math, currency, units and time zones. No modes and no menus: start typing, press Enter.</p>
         </div>
         <div class="chapter__visual stack" aria-hidden="true">
           <div class="mini"><div class="mini__bar">saf</div><div class="row is-selected"><span class="row__icon" aria-hidden="true">S</span> <span class="row__text"><span class="row__title">Safari</span> <span class="row__subtitle">Application</span></span> <span class="row__action">↵ Open</span></div></div>
@@ -143,10 +145,10 @@
 
       <article class="chapter reveal">
         <div class="chapter__text">
-          <p class="kicker">Windows</p>
-          <h2>Windows, without the mouse.</h2>
-          <p>Send the window in front to a half, a third or the whole screen, and put it back. Switch between windows by name.</p>
-          <p class="commands"><span class="mono">:left</span><span class="mono">:right</span><span class="mono">:max</span><span class="mono">:restore</span></p>
+          <p class="kicker">Windows and menus</p>
+          <h2>Windows and menus, without the mouse.</h2>
+          <p>Send the window in front to a half, a third or the whole screen, and put it back. Switch between windows by name. And every menu item of the app you're in is a search away: <span class="mono">:export pdf</span> finds it and shows its shortcut, and Enter chooses it.</p>
+          <p class="commands"><span class="mono">:left</span><span class="mono">:max</span><span class="mono">:restore</span><span class="mono">:export pdf</span></p>
         </div>
         <div class="chapter__visual" aria-hidden="true">
           <div class="desk">
@@ -181,7 +183,7 @@
         <div class="chapter__text">
           <p class="kicker">Yours</p>
           <h2>Make it yours.</h2>
-          <p>Your settings live in one plain-text file you can read, edit and keep in git. Add your own commands, quicklinks and snippets; drop a script in a folder and it becomes a command. Run a shell line with <span class="mono">:!</span>, or turn text into JSON, a UUID or a hash.</p>
+          <p>Your settings live in one plain-text file you can read, edit and keep in git. Add your own commands, quicklinks and snippets; drop a script in a folder and it becomes a command, community script commands included. Run a shell line with <span class="mono">:!</span>, or turn text into JSON, a UUID or a hash.</p>
           <p class="commands"><span class="mono">:!git status</span><span class="mono">json</span><span class="mono">uuid</span></p>
         </div>
         <div class="chapter__visual" aria-hidden="true">
@@ -238,7 +240,7 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
       <div class="download__cta">
         <a class="btn btn--primary" href="https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>
-          Download Copperlight 0.1
+          Download Copperlight 0.2
         </a>
         <p class="meta">macOS 15 or later · Apple silicon and Intel · 8 MB</p>
       </div>

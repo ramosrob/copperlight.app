@@ -61,10 +61,9 @@ test("hero queries exist", () => {
   }
 });
 
-test("only v0.1 features", () => {
+test("no features the app doesn't have", () => {
   for (const key of entries.flatMap((entry) => entry.keys)) {
     assert.ok(![":git", ":gh", ":jira", ":claude"].some((prefix) => key.startsWith(prefix)), key);
-    assert.ok(!["bluetooth", "dark mode"].includes(key), key);
   }
 });
 

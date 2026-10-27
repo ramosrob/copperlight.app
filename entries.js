@@ -1,4 +1,4 @@
-// What the in-page demo knows: real Copperlight v0.1 queries, each with the rows the app would show (the first is
+// What the in-page demo knows: real Copperlight queries, each with the rows the app would show (the first is
 // selected; match() adds the app's "Search Google for …" row last). An icon is a letter or a symbol id in index.html.
 // Values like rates and times are illustrative; the page makes no network requests.
 export const entries = [
@@ -54,6 +54,14 @@ export const entries = [
   {
     keys: [":left"],
     rows: [{ icon: "i-window", title: "Left Half", subtitle: "Move the front window", action: "Run", toast: "Moves the window to the left half" }],
+  },
+  {
+    keys: [":export pdf"],
+    rows: [{ icon: "P", title: "Export as PDF…", subtitle: "File menu in Preview", action: "Choose", toast: "Exports the document as a PDF" }],
+  },
+  {
+    keys: ["bluetooth"],
+    rows: [{ icon: "i-switch", title: "Bluetooth", subtitle: "System Settings", action: "Open", toast: "Opens Bluetooth in System Settings" }],
   },
   {
     keys: ["emoji party"],

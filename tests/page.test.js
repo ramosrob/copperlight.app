@@ -109,9 +109,9 @@ test("copy rules", () => {
   assert.doesNotMatch(html, LAUNCHERS);
 });
 
-test("v0.1 only", () => {
+test("no features the app doesn't have", () => {
   const text = visibleText(html);
-  for (const off of [":git diff", ":gh pr", ":jira", ":claude", "System Settings pages"]) assert.ok(!text.includes(off), off);
+  for (const off of [":git diff", ":gh pr", ":jira", ":claude"]) assert.ok(!text.includes(off), off);
 });
 
 test("cmd space", () => {
@@ -200,4 +200,11 @@ test("result rows read as separate words in plain text", () => {
 
 test("the config example says which keys option+space is", () => {
   assert.match(html, /"option\+space"<\/span>\s*<span class="t-c"># ⌥Space<\/span>/);
+});
+
+test("v0.2's features are on the page and in the demo", () => {
+  const text = visibleText(html);
+  for (const phrase of ["System Settings", ":export pdf", "community script"]) assert.ok(text.includes(phrase), phrase);
+  for (const chip of [":export pdf", "bluetooth"]) assert.ok(html.includes(`data-query="${chip}"`), chip);
+  assert.ok(text.includes("Download Copperlight 0.2"));
 });
