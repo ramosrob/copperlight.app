@@ -353,6 +353,7 @@ kbd {
 .file__body { margin: 0; padding: 20px 22px 24px; font-size: 13px; line-height: 1.75; color: #CFC5BB; overflow-x: auto; }
 .t-k { color: var(--copper-light); }
 .t-s { color: #D9C2A3; }
+.t-c { color: var(--text-2); }
 
 /* Principles */
 .principles__list {

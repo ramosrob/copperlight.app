@@ -16,6 +16,7 @@ function span(className, text = "") {
 // A row's icon: a letter, or one of the drawn icons at the top of index.html ("i-…").
 function rowIcon(name) {
   const holder = span("row__icon");
+  holder.setAttribute("aria-hidden", "true"); // decoration: the title says it
   if (!name.startsWith("i-")) {
     holder.textContent = name;
     return holder;
@@ -39,8 +40,10 @@ export function renderRows(container, rows, selected, idPrefix) {
     element.setAttribute("aria-selected", String(index === selected));
     if (idPrefix) element.id = `${idPrefix}-${index}`;
     const text = span("row__text");
-    text.append(span("row__title", row.title), span("row__subtitle", row.subtitle));
-    element.append(rowIcon(row.icon), text, span("row__action", `↵ ${row.action}`));
+    // Spaces between the parts, so the row reads as words in plain text too (screen readers, copy, crawlers).
+    const space = () => document.createTextNode(" ");
+    text.append(span("row__title", row.title), space(), span("row__subtitle", row.subtitle));
+    element.append(rowIcon(row.icon), space(), text, space(), span("row__action", `↵ ${row.action}`));
     return element;
   }));
 }

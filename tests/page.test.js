@@ -183,3 +183,21 @@ test("the hero points to the Open Anyway explanation", () => {
   const hero = html.slice(html.indexOf('class="hero'), html.indexOf('id="try"'));
   assert.ok(hero.includes('href="#download"'));
 });
+
+// Feedback after launch: text readers (search engines, link previews) saw "$$34.7929.99 Euros…".
+
+test("result rows read as separate words in plain text", () => {
+  const rows = html.match(/<div class="row[^"]*">[\s\S]*?<\/div>/g) ?? [];
+  assert.ok(rows.length > 0);
+  for (const row of rows) {
+    assert.doesNotMatch(row, /<\/span><span/, "row parts need a space between them");
+    assert.match(row, /class="row__icon" aria-hidden="true"/, "the icon is decoration");
+  }
+  const js = read("demo.js");
+  assert.ok(js.includes('createTextNode(" ")'), "rendered rows get spaces too");
+  assert.ok(js.includes('setAttribute("aria-hidden", "true")'));
+});
+
+test("the config example says which keys option+space is", () => {
+  assert.match(html, /"option\+space"<\/span>\s*<span class="t-c"># ⌥Space<\/span>/);
+});
