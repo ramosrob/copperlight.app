@@ -42,6 +42,7 @@
   <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M4 16.5 16.5 4 20 7.5 7.5 20z"/><path d="m8 12.5 1.8 1.8M10.5 10l1.2 1.2M13 7.5l1.8 1.8"/></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 6.5v11l7.5-5.5z"/><path d="M16.5 7v10M20 7v10"/></symbol>
   <symbol id="i-translate" viewBox="0 0 24 24"><path d="M5.5 4.5h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H11l-4.5 3.5V17h-1a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2z"/><path d="m9 14 3-7 3 7M10.2 11.5h3.6"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M7 3.5h10M7 20.5h10M8 3.5v2.6a4 4 0 0 0 1.6 3.2L12 11.2l2.4-1.9A4 4 0 0 0 16 6.1V3.5M8 20.5v-2.6a4 4 0 0 1 1.6-3.2L12 12.8l2.4 1.9a4 4 0 0 1 1.6 3.2v2.6"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol>
 </svg>
 
@@ -184,8 +185,8 @@
         <div class="chapter__text">
           <p class="kicker">Your day</p>
           <h2>Your day, a keystroke away.</h2>
-          <p>Type <span class="mono">meetings</span> and join the next call. Add a todo or an event as you think of it, and start a pomodoro without leaving what you're doing.</p>
-          <p class="commands"><span class="mono">meetings</span><span class="mono">add todo</span><span class="mono">add event</span><span class="mono">pomo 25</span></p>
+          <p>Type <span class="mono">meetings</span> and join the next call. Add a todo or an event as you think of it, and start a pomodoro, or a timer for the tea, without leaving what you're doing.</p>
+          <p class="commands"><span class="mono">meetings</span><span class="mono">add todo</span><span class="mono">add event</span><span class="mono">pomo 25</span><span class="mono">timer 10 min tea</span></p>
         </div>
         <div class="chapter__visual" aria-hidden="true">
           <div class="launcher">
@@ -232,6 +233,85 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
     </div>
   </section>
 
+  <section class="section tools" id="tools" aria-labelledby="tools-title">
+    <div class="container reveal">
+      <h2 id="tools-title">The little tools, built in.</h2>
+      <p class="section-lead">What you&rsquo;d otherwise install one app at a time, a few letters away.</p>
+      <dl class="tools__list">
+        <div class="tool">
+          <dt>Clipboard history</dt>
+          <dd class="mono">clip</dd>
+          <dd>Everything you copy, text and images, searchable and pasted where you are.</dd>
+        </div>
+        <div class="tool">
+          <dt>Floating notes</dt>
+          <dd class="mono">note</dd>
+          <dd>A glass note above your windows that saves as you type.</dd>
+        </div>
+        <div class="tool">
+          <dt>Pomodoro</dt>
+          <dd class="mono">pomo 50</dd>
+          <dd>A focus timer counting down in the menu bar, with breaks.</dd>
+        </div>
+        <div class="tool">
+          <dt>Timer</dt>
+          <dd class="mono">timer 10 min tea</dd>
+          <dd>A countdown for anything else, with a sound when it&rsquo;s done.</dd>
+        </div>
+        <div class="tool">
+          <dt>Quick capture</dt>
+          <dd class="mono">add todo</dd>
+          <dd>Reminders and calendar events, the date read from what you type.</dd>
+        </div>
+        <div class="tool">
+          <dt>Snippets</dt>
+          <dd class="mono">reply Ana</dd>
+          <dd>The text you type over and over, the name filled in.</dd>
+        </div>
+        <div class="tool">
+          <dt>Meetings</dt>
+          <dd class="mono">meetings</dd>
+          <dd>The rest of today&rsquo;s calendar. Enter joins the call.</dd>
+        </div>
+        <div class="tool">
+          <dt>Translate</dt>
+          <dd class="mono">translate</dd>
+          <dd>On-device translation of what you type, or of what you copied.</dd>
+        </div>
+        <div class="tool">
+          <dt>Dictionary</dt>
+          <dd class="mono">define</dd>
+          <dd>The Mac&rsquo;s dictionary, right beside the results.</dd>
+        </div>
+        <div class="tool">
+          <dt>Stocks</dt>
+          <dd class="mono">stock aapl</dd>
+          <dd>The price and the last seven days, only when you ask.</dd>
+        </div>
+        <div class="tool">
+          <dt>Music and sound</dt>
+          <dd class="mono">:play</dd>
+          <dd>Play, pause and skip, mute, or switch to your headphones.</dd>
+        </div>
+        <div class="tool">
+          <dt>Keep awake</dt>
+          <dd class="mono">:awake</dd>
+          <dd>Keeps your Mac and its screen awake until you say so.</dd>
+        </div>
+        <div class="tool">
+          <dt>Text tools</dt>
+          <dd class="mono">json</dd>
+          <dd>Format JSON, make a UUID or a password, convert a color.</dd>
+        </div>
+        <div class="tool">
+          <dt>Emoji</dt>
+          <dd class="mono">emoji party</dd>
+          <dd>Every emoji by name, pasted where you are.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
   <section class="section principles" id="principles" aria-labelledby="principles-title">
     <div class="container reveal">
       <h2 id="principles-title">Nothing it doesn't need.</h2>
@@ -260,7 +340,7 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
       <div class="download__cta">
         <a class="btn btn--primary" href="https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>
-          Download Copperlight 0.3
+          Download Copperlight 0.4
         </a>
         <p class="meta">macOS 15 or later · Apple silicon and Intel · 8 MB</p>
       </div>

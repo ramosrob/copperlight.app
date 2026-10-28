@@ -368,6 +368,22 @@ kbd {
 .t-s { color: #D9C2A3; }
 .t-c { color: var(--text-2); }
 
+/* The built-in tools: a quiet two-column list, name and what to type, then what it does */
+.tools { text-align: center; }
+.tools__list {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 64px);
+  margin: 52px 0 0; text-align: left;
+}
+.tool {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 6px 16px;
+  padding: 20px 2px; border-top: 1px solid var(--line);
+}
+.tool dt { font-weight: 500; font-size: 17px; letter-spacing: -0.015em; }
+.tool dd { margin: 0; }
+.tool .mono { font-size: 12.5px; padding: 4px 9px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); color: #D8CEC4; white-space: nowrap; }
+.tool dd:last-child { grid-column: 1 / -1; font-size: 15px; line-height: 1.5; color: var(--text-2); }
+@media (max-width: 640px) { .tools__list { grid-template-columns: minmax(0, 1fr); } }
+
 /* Principles */
 .principles__list {
   list-style: none; padding: 0; margin: 56px 0 0;

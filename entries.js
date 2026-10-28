@@ -10,6 +10,7 @@ export const modes = [
   { prefix: "add todo ", title: "Add Reminder", hint: "call mom tomorrow 5pm" },
   { prefix: "add event ", title: "Add Calendar Event", hint: "fri 10am dentist" },
   { prefix: ":quit ", title: "Quit Application", hint: "" },
+  { prefix: "timer ", title: "Timer", hint: "10 min tea, 90s, 1h 30m" },
 ];
 
 export const entries = [
@@ -73,6 +74,14 @@ export const entries = [
   {
     keys: ["bluetooth"],
     rows: [{ icon: "i-switch", title: "Bluetooth", subtitle: "System Settings", action: "Open", toast: "Opens Bluetooth in System Settings" }],
+  },
+  {
+    keys: ["pomo 25", "pomo"],
+    rows: [{ icon: "i-clock", title: "Start Pomodoro", subtitle: "25 minutes", action: "Start", toast: "Starts a 25-minute pomodoro in the menu bar" }],
+  },
+  {
+    keys: ["timer 10 min tea"],
+    rows: [{ icon: "i-hourglass", title: "Start Timer", subtitle: "10 minutes · tea", action: "Start", toast: "Starts a 10-minute timer for tea" }],
   },
   {
     keys: [":play"],

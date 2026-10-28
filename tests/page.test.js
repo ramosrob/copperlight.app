@@ -212,8 +212,29 @@ test("v0.3's features are on the page and in the demo", () => {
   const text = visibleText(html);
   for (const phrase of [":play", ":mute", ":awake", "translations", "stock prices"]) assert.ok(text.includes(phrase), phrase);
   assert.ok(html.includes('data-query="translate bom dia"'));
-  assert.ok(text.includes("Download Copperlight 0.3"));
   assert.ok(!/No modes/.test(text), "a name can be a chip now");
+});
+
+test("the built-in tools are listed, each with what to type and what it does", () => {
+  const at = ['id="features"', 'id="tools"', 'id="principles"'].map((s) => html.indexOf(s));
+  assert.ok(at[0] < at[1] && at[1] < at[2], "after the chapters, before the principles");
+  const section = html.slice(at[1], at[2]);
+  const tools = [...section.matchAll(/<div class="tool">\s*<dt>([^<]+)<\/dt>\s*<dd class="mono">([^<]+)<\/dd>\s*<dd>([^<]+)<\/dd>\s*<\/div>/g)];
+  assert.ok(tools.length >= 12 && tools.length % 2 === 0, `an even list, two columns: ${tools.length}`);
+  const commands = tools.map(([, , command]) => command);
+  for (const command of ["clip", "pomo 50", "timer 10 min tea", "translate", "stock aapl", ":play", ":awake"]) assert.ok(commands.includes(command), command);
+  assert.match(css, /\.tools__list\s*{/);
+});
+
+test("v0.4: the timer, on the page and in the demo", async () => {
+  const text = visibleText(html);
+  assert.ok(text.includes("Download Copperlight 0.4"));
+  const day = html.slice(html.indexOf('<p class="kicker">Your day</p>'), html.indexOf("</article>", html.indexOf('<p class="kicker">Your day</p>')));
+  assert.ok(visibleText(day).includes("timer"), "Your day mentions the timer");
+  const { entries, modes } = await import("../entries.js");
+  const keys = entries.flatMap((entry) => entry.keys);
+  for (const key of ["timer 10 min tea", "pomo 25"]) assert.ok(keys.includes(key), key);
+  assert.ok(modes.some((mode) => mode.prefix === "timer "));
 });
 
 test("chips have a chapter of their own, right after Find, and the chapters still alternate", () => {
