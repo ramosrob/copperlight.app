@@ -54,7 +54,7 @@ export const entries = [
     rows: [{ icon: "i-clock", title: "7:00 AM", subtitle: "3 PM in Lisbon, in San Francisco", action: "Copy", toast: "Copied 7:00 AM" }],
   },
   {
-    keys: ["meetings"],
+    keys: ["meetings", "agenda"],
     rows: [
       { icon: "i-calendar", title: "Design review", subtitle: "10:30–11:00 · Google Meet", action: "Join", toast: "Joins Design review" },
       { icon: "i-calendar", title: "1:1 with Ana", subtitle: "14:00–14:30", action: "Open", toast: "Opens 1:1 with Ana in Calendar" },
