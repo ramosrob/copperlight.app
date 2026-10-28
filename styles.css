@@ -427,7 +427,7 @@ kbd {
 .footer__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding-block: 36px; font-size: 14px; color: var(--text-2); }
 .footer__brand { display: flex; align-items: center; gap: 9px; color: var(--text); font-weight: 500; }
 .footer__brand span { color: var(--text-2); font-weight: 400; }
-.footer__links { display: flex; gap: 24px; }
+.footer__links { display: flex; flex-wrap: wrap; gap: 12px 24px; }
 .footer__links a:hover { color: var(--text); }
 
 /* Narrow screens */
@@ -450,3 +450,74 @@ kbd {
 .results { transition: opacity 0.22s ease; }
 .results.is-quiet { opacity: 0; }
 @media (max-width: 520px) { .hero .launcher { min-height: 190px; } }
+
+/* Questions: the homepage's, and each comparison page's */
+.faq { text-align: center; }
+.faq__list { max-width: 760px; margin: 48px auto 0; text-align: left; border-top: 1px solid var(--line); }
+.faq__item { border-bottom: 1px solid var(--line); }
+.faq__item summary {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding: 20px 2px;
+  font-weight: 500; font-size: 17px; letter-spacing: -0.015em; cursor: pointer; list-style: none;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after { content: "+"; flex: none; font: 400 20px/1 var(--mono); color: var(--copper-light); transition: transform 0.2s ease; }
+.faq__item[open] summary::after { transform: rotate(45deg); }
+.faq__item summary:hover { color: #fff; }
+.faq__item p { margin: -4px 0 0; padding: 0 40px 22px 2px; font-size: 15.5px; line-height: 1.6; color: var(--text-2); }
+.faq__more { margin-top: 32px; font-size: 15px; }
+.faq__more a, .doc p a, .doc li a, .compare a, .sources a, .section-lead a {
+  color: var(--text); text-decoration: underline; text-decoration-color: rgba(232, 140, 74, 0.6); text-underline-offset: 3px;
+}
+.faq__more a:hover, .doc p a:hover, .doc li a:hover, .compare a:hover, .sources a:hover, .section-lead a:hover { text-decoration-color: var(--copper-light); }
+
+/* Comparison pages */
+.page-hero { position: relative; isolation: isolate; text-align: center; padding-block: clamp(56px, 8vw, 96px) clamp(72px, 9vw, 112px); --glow-y: 36%; --glow-strength: 0.22; }
+.page-hero h1 { margin-top: 20px; font-size: clamp(2.5rem, 5.8vw, 4.4rem); line-height: 1.02; letter-spacing: -0.044em; }
+.crumbs { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; font-size: 13px; color: var(--text-2); }
+.crumbs a:hover { color: var(--text); }
+.crumbs span[aria-hidden] { opacity: 0.5; }
+.doc { padding-top: 0; }
+.doc .container { width: min(780px, 100% - 2 * var(--gutter)); }
+.doc h2 { margin-top: clamp(80px, 10vw, 112px); font-size: clamp(1.8rem, 3.4vw, 2.4rem); line-height: 1.08; letter-spacing: -0.035em; }
+.doc .container > h2:first-child { margin-top: 0; }
+.doc p, .doc li { font-size: 17px; line-height: 1.65; color: var(--text-2); }
+.doc p { margin-top: 16px; }
+.doc strong { font-weight: 500; color: var(--text); }
+.doc ul, .doc ol { margin: 16px 0 0; padding-left: 1.2em; }
+.doc li + li { margin-top: 8px; }
+.doc li::marker { color: var(--copper-deep); }
+.doc .mono { color: #D8CEC4; }
+.compare-wrap { margin-top: 28px; overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: rgba(21, 18, 16, 0.6); }
+.compare { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+.compare th, .compare td { padding: 14px 18px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
+.compare thead th { border-top: 0; padding-block: 16px; font: 500 12px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); background: var(--surface); }
+.compare thead th:nth-child(2) { color: var(--copper-light); }
+.compare tbody th { width: 24%; font-weight: 500; color: var(--text); }
+.compare td { width: 38%; color: var(--text-2); }
+.compare td:first-of-type { color: var(--text); background: rgba(232, 140, 74, 0.035); }
+.compare__note, .sources { margin-top: 14px; font-size: 13.5px; color: var(--text-2); }
+.picks, .others { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 28px; }
+.pick, .other { padding: 24px 24px 26px; border-radius: 18px; background: rgba(21, 18, 16, 0.85); border: 1px solid var(--line); }
+.pick--ours { border-color: rgba(240, 160, 100, 0.32); }
+.pick h3, .other strong { display: block; font-weight: 500; font-size: 18px; letter-spacing: -0.015em; color: var(--text); }
+.doc .pick p { margin-top: 10px; font-size: 15.5px; line-height: 1.55; }
+.other { display: block; transition: border-color 0.2s ease, transform 0.2s ease; }
+.other:hover { border-color: rgba(240, 160, 100, 0.45); transform: translateY(-1px); }
+.other span { display: block; margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--text-2); }
+.code { margin: 18px 0 0; padding: 18px 20px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); font: 13px/1.75 var(--mono); color: #CFC5BB; overflow-x: auto; }
+.doc .faq__list { margin: 24px 0 0; }
+.cta { text-align: center; }
+@media (max-width: 640px) {
+  .picks, .others { grid-template-columns: minmax(0, 1fr); }
+  .faq__item p { padding-right: 8px; }
+  /* Each row becomes a card: the feature, then each app's answer under its name. */
+  .compare { min-width: 0; }
+  .compare thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .compare tr { display: block; padding: 16px 18px 18px; border-top: 1px solid var(--line); }
+  .compare tbody tr:first-child { border-top: 0; }
+  .compare th, .compare td, .compare tbody th { display: block; width: auto; padding: 0; border: 0; background: none; }
+  .compare td:first-of-type { background: none; }
+  .compare td { margin-top: 10px; }
+  .compare td::before { content: attr(data-label); display: block; margin-bottom: 3px; font: 500 11px/1.4 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); }
+  .compare td:first-of-type::before { color: var(--copper-light); }
+}

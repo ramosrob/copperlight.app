@@ -47,7 +47,7 @@ test("no third-party requests", () => {
 
 test("head", () => {
   assert.match(html, /<html lang="en"/);
-  assert.match(html, /<title>Copperlight: a warmer light than Spotlight<\/title>/);
+  assert.match(html, /<title>Copperlight: a free, open source Spotlight alternative for Mac<\/title>/);
   assert.match(html, /<meta name="description" content="[^"]+"/);
   assert.match(html, /<meta property="og:title" content="[^"]+"/);
   assert.match(html, /<meta property="og:description" content="[^"]+"/);

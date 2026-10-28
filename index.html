@@ -3,18 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Copperlight: a warmer light than Spotlight</title>
-  <meta name="description" content="Copperlight takes Spotlight's place on your Mac: open apps, find files, do math and currency, keep your clipboard history and move windows, all from the keyboard. Free and open source.">
+  <title>Copperlight: a free, open source Spotlight alternative for Mac</title>
+  <meta name="description" content="Copperlight is a free, open source launcher for Mac: apps, files, clipboard history, window management, snippets and math, all from one hotkey.">
   <link rel="canonical" href="https://copperlight.app/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#0E0C0B">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Copperlight">
+  <meta property="og:locale" content="en_US">
   <meta property="og:url" content="https://copperlight.app/">
   <meta property="og:title" content="Copperlight: a warmer light than Spotlight">
   <meta property="og:description" content="Apps, files, math, clipboard history and windows, all from the keyboard. Free and open source, for Mac.">
   <meta property="og:image" content="https://copperlight.app/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Copperlight, a warmer light than Spotlight: the launcher converting 29.99 euros to US dollars">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="mark.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
@@ -23,6 +27,106 @@
   <link rel="preload" href="fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <script type="module" src="demo.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://copperlight.app/#website",
+        "url": "https://copperlight.app/",
+        "name": "Copperlight",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://copperlight.app/#author",
+        "name": "Rob Ramos",
+        "url": "https://github.com/ramosrob"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://copperlight.app/#app",
+        "name": "Copperlight",
+        "url": "https://copperlight.app/",
+        "description": "A free, open source launcher for Mac that takes Spotlight’s place: apps, files, clipboard history, window management, snippets, math and currency, from one hotkey.",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "macOS 15 or later",
+        "softwareVersion": "0.5",
+        "downloadUrl": "https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip",
+        "fileSize": "8 MB",
+        "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "image": "https://copperlight.app/og.png",
+        "screenshot": "https://copperlight.app/og.png",
+        "author": {
+          "@id": "https://copperlight.app/#author"
+        },
+        "sameAs": [
+          "https://github.com/ramosrob/copperlight"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is Copperlight free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Copperlight is free and open source under the GPL-3.0. There’s no account to make and nothing to pay for."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Copperlight replace Spotlight?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. It opens apps, finds files and does math and conversions like Spotlight, and adds window commands, menu search, snippets, timers and your own commands. Keep both, or give Copperlight Spotlight’s shortcut: the steps are below."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which Macs does it run on?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "macOS 15 Sequoia or later, on Apple silicon and Intel Macs. The download is 8 MB."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Copperlight send my data anywhere?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. There’s no account, no telemetry and no AI service. It goes online only for currency rates, app descriptions (which you can turn off) and a stock price when you ask for one."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I add my own commands?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Quicklinks, snippets and commands go in one plain-text file, config.toml, and any script you put in its scripts folder becomes a command. Community script commands run as they are."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it safe to open?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every line of Copperlight is on GitHub, where you can read it or build it yourself. The first time you open it, macOS asks you to confirm it once: the download section shows how."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -62,9 +166,9 @@
 
   <section class="hero glow">
     <div class="container">
-      <p class="eyebrow">Free and open source · for Mac</p>
+      <p class="eyebrow">Free and open source · Mac launcher</p>
       <h1>A warmer light<br> than <span class="copper">Spotlight</span>.</h1>
-      <p class="lead">Open apps, find files, do math, paste from your clipboard history and move windows. One hotkey, and everything is a few keystrokes away.</p>
+      <p class="lead">Copperlight takes Spotlight’s place on your Mac: open apps, find files, do math, paste from your clipboard history and move windows. One hotkey, and everything is a few keystrokes away.</p>
       <div class="actions">
         <a class="btn btn--primary" href="https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>
@@ -325,6 +429,39 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
     </div>
   </section>
 
+  <section class="section faq" id="faq" aria-labelledby="faq-title">
+    <div class="container reveal">
+      <h2 id="faq-title">Questions, answered.</h2>
+      <div class="faq__list">
+        <details class="faq__item">
+          <summary>Is Copperlight free?</summary>
+          <p>Yes. Copperlight is free and open source under the GPL-3.0. There’s no account to make and nothing to pay for.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can Copperlight replace Spotlight?</summary>
+          <p>Yes. It opens apps, finds files and does math and conversions like Spotlight, and adds window commands, menu search, snippets, timers and your own commands. Keep both, or give Copperlight Spotlight’s shortcut: the steps are below.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Which Macs does it run on?</summary>
+          <p>macOS 15 Sequoia or later, on Apple silicon and Intel Macs. The download is 8 MB.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does Copperlight send my data anywhere?</summary>
+          <p>No. There’s no account, no telemetry and no AI service. It goes online only for currency rates, app descriptions (which you can turn off) and a stock price when you ask for one.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I add my own commands?</summary>
+          <p>Yes. Quicklinks, snippets and commands go in one plain-text file, config.toml, and any script you put in its scripts folder becomes a command. Community script commands run as they are.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Is it safe to open?</summary>
+          <p>Every line of Copperlight is on GitHub, where you can read it or build it yourself. The first time you open it, macOS asks you to confirm it once: the download section shows how.</p>
+        </details>
+      </div>
+      <p class="faq__more"><a href="/spotlight-alternative/">How Copperlight compares with Spotlight and other launchers</a></p>
+    </div>
+  </section>
+
   <section class="section download glow" id="download" aria-labelledby="download-title">
     <div class="container reveal">
       <h2 id="download-title">Up and running in a minute.</h2>
@@ -359,6 +496,7 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
   <div class="container footer__inner">
     <p class="footer__brand"><img src="mark.svg" width="16" height="16" alt="">Copperlight <span>· GPL-3.0 · by Rob Ramos</span></p>
     <nav class="footer__links" aria-label="Elsewhere">
+      <a href="/spotlight-alternative/">Compare</a>
       <a href="https://github.com/ramosrob/copperlight">GitHub</a>
       <a href="https://github.com/sponsors/ramosrob">Sponsor</a>
       <a href="https://buymeacoffee.com/ramosrob">Buy me a coffee</a>

@@ -1,7 +1,7 @@
 # copperlight.app
 
 The website of [Copperlight](https://github.com/ramosrob/copperlight), a free and open source keyboard launcher for
-macOS. One static page: HTML, CSS and a little JavaScript, no framework, no build step, no tracking.
+macOS. Static pages: HTML, CSS and a little JavaScript, no framework, no build step, no tracking.
 
 ## Run it
 
@@ -16,6 +16,10 @@ It has to be served over HTTP (the scripts are ES modules), so opening `index.ht
 
 ```
 index.html            the page
+spotlight-alternative/, raycast-alternative/, alfred-alternative/
+                      comparison pages, for people searching for another launcher; the homepage names none
+404.html              what GitHub Pages shows for an address that doesn't exist
+robots.txt, sitemap.xml  for search engines: the sitemap lists every page (tests/seo.test.js checks it)
 styles.css            the look: tokens at the top, then each section
 demo.js               the live launcher in "Try it", the hero typing queries, sections fading in
 match.js, entries.js  what the demo knows and how it matches what's typed (tested in tests/match.test.js)
@@ -33,7 +37,15 @@ The download buttons link to `https://github.com/ramosrob/copperlight/releases/l
 every app release must attach a file named exactly `Copperlight.zip` (the app's `make release` makes it). Only a full
 release counts as "latest": one marked pre-release (or a draft) leaves the download link on the previous release, or
 a 404 if there is none. The app repo must be public, or nobody else can download its releases. The version and size
-next to the bottom download button are written in `index.html`: update them with each release.
+next to the bottom download button are written in `index.html`: update them with each release, and the
+`softwareVersion` in its structured data (`application/ld+json`) with them; a test checks they match.
+
+## Search engines
+
+Each page has its own title, description, canonical address and structured data, and every question in a page's
+FAQ structured data is on the page word for word (the tests check all of it). The comparison pages state facts
+about other apps: when one of them changes, update the page, its "Checked" line and its `<lastmod>` in
+`sitemap.xml`. They stay fair: no prices, no digs.
 
 ## Deploy (GitHub Pages)
 
