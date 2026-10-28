@@ -102,6 +102,14 @@ export const entries = [
     rows: [{ icon: "i-clock", title: "Start Pomodoro", subtitle: "25 minutes", action: "Start", toast: "Starts a 25-minute pomodoro in the menu bar" }],
   },
   {
+    keys: ["timer until 15:30"],
+    rows: [{ icon: "i-hourglass", title: "Start Timer", subtitle: "Until 15:30 · 47 minutes", action: "Start", toast: "Starts a timer until 15:30" }],
+  },
+  {
+    keys: ["stopwatch"],
+    rows: [{ icon: "i-stopwatch", title: "Start Stopwatch", subtitle: "Counts up in the menu bar", action: "Start", toast: "Starts a stopwatch in the menu bar" }],
+  },
+  {
     keys: ["timer 10 min tea"],
     rows: [{ icon: "i-hourglass", title: "Start Timer", subtitle: "10 minutes · tea", action: "Start", toast: "Starts a 10-minute timer for tea" }],
   },

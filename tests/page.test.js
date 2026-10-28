@@ -228,7 +228,6 @@ test("the built-in tools are listed, each with what to type and what it does", (
 
 test("v0.4: the timer, on the page and in the demo", async () => {
   const text = visibleText(html);
-  assert.ok(text.includes("Download Copperlight 0.6"));
   const day = html.slice(html.indexOf('<p class="kicker">Your day</p>'), html.indexOf("</article>", html.indexOf('<p class="kicker">Your day</p>')));
   assert.ok(visibleText(day).includes("timer"), "Your day mentions the timer");
   const { entries, modes } = await import("../entries.js");
@@ -269,4 +268,19 @@ test("v0.6: windows, layouts, the Mac's numbers, the selection and ↑, on the p
   assert.ok(modes.some((mode) => mode.prefix === "port "));
   for (const chip of ["battery", ":layout work"]) assert.ok(html.includes(`data-query="${chip}"`), chip);
   assert.ok(read("match.js").includes('icon: "i-google"'), "the search row shows Google's G, as in the app");
+});
+
+test("v0.8: the stopwatch, timer until, and what's running waiting when it opens", async () => {
+  const text = visibleText(html);
+  assert.ok(text.includes("Download Copperlight 0.8"));
+  assert.ok(html.includes('"softwareVersion": "0.8"'));
+  for (const phrase of ["stopwatch", "until 15:30"]) assert.ok(text.includes(phrase), phrase);
+  const start = html.indexOf('<p class="kicker">Your day</p>');
+  const day = html.slice(start, html.indexOf("</article>", start));
+  assert.ok(visibleText(day).includes("ticking"), "Your day says what's running waits there");
+  assert.match(day, /class="pill"/, "a copper pill on the rows, as in the app");
+  assert.match(css, /\.pill\s*{/);
+  const { entries } = await import("../entries.js");
+  const keys = entries.flatMap((entry) => entry.keys);
+  for (const key of ["stopwatch", "timer until 15:30"]) assert.ok(keys.includes(key), key);
 });
