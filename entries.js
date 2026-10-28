@@ -11,6 +11,8 @@ export const modes = [
   { prefix: "add event ", title: "Add Calendar Event", hint: "fri 10am dentist" },
   { prefix: ":quit ", title: "Quit Application", hint: "" },
   { prefix: "timer ", title: "Timer", hint: "10 min tea, 90s, 1h 30m" },
+  { prefix: "port ", title: "Port", hint: "A port number, like 3000" },
+  { prefix: ":layout ", title: "Layout", hint: "" },
 ];
 
 export const entries = [
@@ -66,6 +68,26 @@ export const entries = [
   {
     keys: [":left"],
     rows: [{ icon: "i-window", title: "Left Half", subtitle: "Move the front window", action: "Run", toast: "Moves the window to the left half" }],
+  },
+  {
+    keys: [":top left"],
+    rows: [{ icon: "i-window", title: "Top Left Quarter", subtitle: "Move the front window", action: "Run", toast: "Moves the window to the top left quarter" }],
+  },
+  {
+    keys: [":layout work", ":layout"],
+    rows: [{ icon: "i-layout", title: "Work", subtitle: "Layout · 5 windows in 3 apps", action: "Arrange", toast: "Puts every window back where you saved it" }],
+  },
+  {
+    keys: ["battery"],
+    rows: [{ icon: "i-battery", title: "87%, 3:12 left", subtitle: "Battery · health Good · 312 cycles", action: "Open Settings", toast: "Opens Battery settings" }],
+  },
+  {
+    keys: ["disk"],
+    rows: [{ icon: "i-drive", title: "245 GB free of 994 GB", subtitle: "Macintosh HD · 75% used", action: "Open Storage", toast: "Opens Storage settings" }],
+  },
+  {
+    keys: ["port 3000", "port"],
+    rows: [{ icon: "i-terminal", title: "node", subtitle: "Listening on 3000 · pid 812", action: "End Process", toast: "Asks first, then ends node" }],
   },
   {
     keys: [":export pdf"],

@@ -228,7 +228,7 @@ test("the built-in tools are listed, each with what to type and what it does", (
 
 test("v0.4: the timer, on the page and in the demo", async () => {
   const text = visibleText(html);
-  assert.ok(text.includes("Download Copperlight 0.5"));
+  assert.ok(text.includes("Download Copperlight 0.6"));
   const day = html.slice(html.indexOf('<p class="kicker">Your day</p>'), html.indexOf("</article>", html.indexOf('<p class="kicker">Your day</p>')));
   assert.ok(visibleText(day).includes("timer"), "Your day mentions the timer");
   const { entries, modes } = await import("../entries.js");
@@ -256,4 +256,17 @@ test("the demo turns a name that takes text into a chip, as the app does", () =>
   assert.ok(js.includes('"Backspace"'), "Delete in the empty field turns the chip back into text");
   assert.ok(js.includes('"Tab"'), "Tab makes the chip");
   assert.ok(!/addEventListener\("input", \(\) => setMode/.test(js) && !js.includes("modeOf(query()) !== mode"), "typing never does");
+});
+
+test("v0.6: windows, layouts, the Mac's numbers, the selection and ↑, on the page and in the demo", async () => {
+  const text = visibleText(html);
+  for (const phrase of [":top left", ":layout work", "a quarter", "battery", "open ports", "Select text anywhere", "↑"]) {
+    assert.ok(text.includes(phrase), phrase);
+  }
+  const { entries, modes } = await import("../entries.js");
+  const keys = entries.flatMap((entry) => entry.keys);
+  for (const key of [":top left", ":layout work", "battery", "disk", "port 3000"]) assert.ok(keys.includes(key), key);
+  assert.ok(modes.some((mode) => mode.prefix === "port "));
+  for (const chip of ["battery", ":layout work"]) assert.ok(html.includes(`data-query="${chip}"`), chip);
+  assert.ok(read("match.js").includes('icon: "i-google"'), "the search row shows Google's G, as in the app");
 });

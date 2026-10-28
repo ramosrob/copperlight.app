@@ -33,6 +33,6 @@ export function match(input, table = entries, inMode = false) {
   // In a chip only its own rows show; otherwise, like the app, "Search Google for …" always comes last.
   const mode = inMode && modeOf(input.trimStart());
   if (mode) return best && query.length > mode.prefix.trim().length ? best.rows : []; // the app would use the clipboard
-  const google = { icon: "i-search", title: `Search Google for “${input.trim()}”`, subtitle: "Google", action: "Search", toast: "Searches Google" };
+  const google = { icon: "i-google", title: `Search Google for “${input.trim()}”`, subtitle: "Google", action: "Search", toast: "Searches Google" };
   return best ? [...best.rows, google] : [google];
 }

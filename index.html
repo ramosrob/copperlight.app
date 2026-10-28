@@ -52,9 +52,9 @@
         "description": "A free, open source launcher for Mac that takes Spotlight’s place: apps, files, clipboard history, window management, snippets, math and currency, from one hotkey.",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "macOS 15 or later",
-        "softwareVersion": "0.5",
+        "softwareVersion": "0.6",
         "downloadUrl": "https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip",
-        "fileSize": "8 MB",
+        "fileSize": "9 MB",
         "license": "https://www.gnu.org/licenses/gpl-3.0.html",
         "isAccessibleForFree": true,
         "offers": {
@@ -95,7 +95,7 @@
             "name": "Which Macs does it run on?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "macOS 15 Sequoia or later, on Apple silicon and Intel Macs. The download is 8 MB."
+              "text": "macOS 15 Sequoia or later, on Apple silicon and Intel Macs. The download is 9 MB."
             }
           },
           {
@@ -148,6 +148,10 @@
   <symbol id="i-translate" viewBox="0 0 24 24"><path d="M5.5 4.5h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H11l-4.5 3.5V17h-1a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2z"/><path d="m9 14 3-7 3 7M10.2 11.5h3.6"/></symbol>
   <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M7 3.5h10M7 20.5h10M8 3.5v2.6a4 4 0 0 0 1.6 3.2L12 11.2l2.4-1.9A4 4 0 0 0 16 6.1V3.5M8 20.5v-2.6a4 4 0 0 1 1.6-3.2L12 12.8l2.4 1.9a4 4 0 0 1 1.6 3.2v2.6"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol>
+  <symbol id="i-google" viewBox="0 0 48 48"><path fill="#EA4335" stroke="none" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" stroke="none" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" stroke="none" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" stroke="none" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></symbol>
+  <symbol id="i-battery" viewBox="0 0 24 24"><rect x="2.5" y="7" width="17" height="10" rx="2.5"/><path d="M21.5 10.5v3"/><rect x="5" y="9.5" width="9.5" height="5" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-drive" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 13h18M16.5 15.5h1.5"/></symbol>
+  <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3" y="4.5" width="10" height="8" rx="1.5"/><rect x="15" y="4.5" width="6" height="15" rx="1.5"/><rect x="3" y="14.5" width="10" height="5" rx="1.5"/></symbol>
 </svg>
 
 <header class="nav">
@@ -182,7 +186,7 @@
         <div class="bar"><span class="bar__text" data-hero-text>29.99 eur in usd</span><span class="caret"></span></div>
         <div class="results" data-hero-results>
           <div class="row is-selected"><span class="row__icon" aria-hidden="true">$</span> <span class="row__text"><span class="row__title">$34.79</span> <span class="row__subtitle">29.99 Euros in US Dollars</span></span> <span class="row__action">↵ Copy</span></div>
-          <div class="row"><span class="row__icon" aria-hidden="true"><svg aria-hidden="true"><use href="#i-search"/></svg></span> <span class="row__text"><span class="row__title">Search Google for “29.99 eur in usd”</span> <span class="row__subtitle">Google</span></span> <span class="row__action">↵ Search</span></div>
+          <div class="row"><span class="row__icon" aria-hidden="true"><svg aria-hidden="true"><use href="#i-google"/></svg></span> <span class="row__text"><span class="row__title">Search Google for “29.99 eur in usd”</span> <span class="row__subtitle">Google</span></span> <span class="row__action">↵ Search</span></div>
         </div>
       </div>
       <p class="hint"><span class="keys"><kbd>⌥</kbd><kbd>Space</kbd></span> from anywhere</p>
@@ -202,6 +206,8 @@
         <button type="button" class="chip" data-query=":export pdf">:export pdf</button>
         <button type="button" class="chip" data-query="meetings">meetings</button>
         <button type="button" class="chip" data-query="bluetooth">bluetooth</button>
+        <button type="button" class="chip" data-query="battery">battery</button>
+        <button type="button" class="chip" data-query=":layout work">:layout work</button>
         <button type="button" class="chip" data-query="define serendipity">define serendipity</button>
       </div>
       <div class="launcher demo">
@@ -223,7 +229,7 @@
         <div class="chapter__text">
           <p class="kicker">Find</p>
           <h2>Everything, from one field.</h2>
-          <p>Apps, files and folders, your browser's bookmarks and history, System Settings pages, math, currency, units, time zones, translations and stock prices. No menus to dig through: start typing, press Enter.</p>
+          <p>Apps, files and folders, your browser's bookmarks and history, System Settings pages, math, currency, units, time zones, translations, stock prices, and your Mac’s own numbers: battery, disk space, IP, open ports. No menus to dig through: start typing, press Enter. Select text anywhere first and it’s already typed; <span class="keys"><kbd>↑</kbd></span> brings back what you ran.</p>
         </div>
         <div class="chapter__visual stack" aria-hidden="true">
           <div class="mini"><div class="mini__bar">saf</div><div class="row is-selected"><span class="row__icon" aria-hidden="true">S</span> <span class="row__text"><span class="row__title">Safari</span> <span class="row__subtitle">Application</span></span> <span class="row__action">↵ Open</span></div></div>
@@ -272,8 +278,8 @@
         <div class="chapter__text">
           <p class="kicker">Windows and menus</p>
           <h2>Windows and menus, without the mouse.</h2>
-          <p>Send the window in front to a half, a third or the whole screen, and put it back. Switch between windows by name. And every menu item of the app you're in is a search away: <span class="mono">:export pdf</span> finds it and shows its shortcut, and Enter chooses it. The Mac answers the same way: play, pause and skip the music, mute, switch to your headphones, or keep the screen awake.</p>
-          <p class="commands"><span class="mono">:left</span><span class="mono">:restore</span><span class="mono">:export pdf</span><span class="mono">:play</span><span class="mono">:mute</span><span class="mono">:awake</span></p>
+          <p>Send the window in front to a half, a quarter, a third or the whole screen, nudge it a step at a time, and put it back. Save every window on screen as a layout, and bring it all back with one command. Switch between windows by name. And every menu item of the app you're in is a search away: <span class="mono">:export pdf</span> finds it and shows its shortcut, and Enter chooses it. The Mac answers the same way: play, pause and skip the music, mute, switch to your headphones, or keep the screen awake.</p>
+          <p class="commands"><span class="mono">:left</span><span class="mono">:top left</span><span class="mono">:layout work</span><span class="mono">:export pdf</span><span class="mono">:play</span><span class="mono">:mute</span><span class="mono">:awake</span></p>
         </div>
         <div class="chapter__visual" aria-hidden="true">
           <div class="desk">
@@ -403,6 +409,16 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
           <dd>Keeps your Mac and its screen awake until you say so.</dd>
         </div>
         <div class="tool">
+          <dt>Your Mac’s numbers</dt>
+          <dd class="mono">battery</dd>
+          <dd>The battery and its health, free disk space, your IP, and what’s listening on a port.</dd>
+        </div>
+        <div class="tool">
+          <dt>Window layouts</dt>
+          <dd class="mono">:layout work</dd>
+          <dd>Every window on screen, saved by name and put back in one go.</dd>
+        </div>
+        <div class="tool">
           <dt>Text tools</dt>
           <dd class="mono">json</dd>
           <dd>Format JSON, make a UUID or a password, convert a color.</dd>
@@ -443,7 +459,7 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
         </details>
         <details class="faq__item">
           <summary>Which Macs does it run on?</summary>
-          <p>macOS 15 Sequoia or later, on Apple silicon and Intel Macs. The download is 8 MB.</p>
+          <p>macOS 15 Sequoia or later, on Apple silicon and Intel Macs. The download is 9 MB.</p>
         </details>
         <details class="faq__item">
           <summary>Does Copperlight send my data anywhere?</summary>
@@ -477,9 +493,9 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
       <div class="download__cta">
         <a class="btn btn--primary" href="https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>
-          Download Copperlight 0.5
+          Download Copperlight 0.6
         </a>
-        <p class="meta">macOS 15 or later · Apple silicon and Intel · 8 MB</p>
+        <p class="meta">macOS 15 or later · Apple silicon and Intel · 9 MB</p>
       </div>
       <p class="download__alt">Prefer Terminal? <span class="mono">xattr -dr com.apple.quarantine /Applications/Copperlight.app</span> skips step 3. Or build it yourself: the <a href="https://github.com/ramosrob/copperlight#readme">README</a> has the commands.</p>
 
