@@ -40,6 +40,8 @@
   <symbol id="i-hash" viewBox="0 0 24 24"><path d="M9.5 4 8 20M16 4l-1.5 16M4.5 9h15M4 15h15"/></symbol>
   <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="m7.5 10 3 2.5-3 2.5M12.5 15.5h4"/></symbol>
   <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M4 16.5 16.5 4 20 7.5 7.5 20z"/><path d="m8 12.5 1.8 1.8M10.5 10l1.2 1.2M13 7.5l1.8 1.8"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 6.5v11l7.5-5.5z"/><path d="M16.5 7v10M20 7v10"/></symbol>
+  <symbol id="i-translate" viewBox="0 0 24 24"><path d="M5.5 4.5h13a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H11l-4.5 3.5V17h-1a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2z"/><path d="m9 14 3-7 3 7M10.2 11.5h3.6"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol>
 </svg>
 
@@ -89,7 +91,7 @@
       <div class="chips" data-demo-chips>
         <button type="button" class="chip" data-query="saf">saf</button>
         <button type="button" class="chip" data-query="29.99 eur in usd">29.99 eur in usd</button>
-        <button type="button" class="chip" data-query="3pm lisbon in sf">3pm lisbon in sf</button>
+        <button type="button" class="chip" data-query="translate bom dia">translate bom dia</button>
         <button type="button" class="chip" data-query="clip">clip</button>
         <button type="button" class="chip" data-query=":left">:left</button>
         <button type="button" class="chip" data-query=":export pdf">:export pdf</button>
@@ -99,6 +101,7 @@
       </div>
       <div class="launcher demo">
         <label class="bar bar--input">
+          <span class="bar__mode" data-demo-mode hidden></span>
           <input data-demo-input type="text" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-label="Try Copperlight: type a query" aria-controls="demo-results" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type anything">
         </label>
         <div class="results" id="demo-results" data-demo-results role="listbox" aria-label="Results"></div>
@@ -115,7 +118,7 @@
         <div class="chapter__text">
           <p class="kicker">Find</p>
           <h2>Everything, from one field.</h2>
-          <p>Apps, files and folders, your browser's bookmarks and history, System Settings pages, math, currency, units and time zones. No modes and no menus: start typing, press Enter.</p>
+          <p>Apps, files and folders, your browser's bookmarks and history, System Settings pages, math, currency, units, time zones, translations and stock prices. No menus to dig through: start typing, press Enter.</p>
         </div>
         <div class="chapter__visual stack" aria-hidden="true">
           <div class="mini"><div class="mini__bar">saf</div><div class="row is-selected"><span class="row__icon" aria-hidden="true">S</span> <span class="row__text"><span class="row__title">Safari</span> <span class="row__subtitle">Application</span></span> <span class="row__action">↵ Open</span></div></div>
@@ -125,6 +128,23 @@
       </article>
 
       <article class="chapter chapter--flip reveal">
+        <div class="chapter__text">
+          <p class="kicker">Chips</p>
+          <h2>Press Tab, and it&rsquo;s a tool.</h2>
+          <p>Type the start of a tool&rsquo;s name and press <span class="keys"><kbd>Tab</kbd></span>: it becomes a chip, and what you type next goes straight to it. Translate into German, look up a stock&rsquo;s last seven days, add a reminder, quit an app. A space stays a space, so searching for a file is never taken over.</p>
+          <p class="commands"><span class="mono">tra</span><span class="mono">stock aapl</span><span class="mono">add todo</span><span class="mono">:quit</span></p>
+        </div>
+        <div class="chapter__visual" aria-hidden="true">
+          <div class="launcher">
+            <div class="bar bar--small"><span class="bar__mode">Translate to German</span> <span class="bar__text">hello world</span><span class="caret"></span></div>
+            <div class="results">
+              <div class="row is-selected"><span class="row__icon" aria-hidden="true"><svg aria-hidden="true"><use href="#i-translate"/></svg></span> <span class="row__text"><span class="row__title">Hallo Welt</span> <span class="row__subtitle">English → German</span></span> <span class="row__action">↵ Copy</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter reveal">
         <div class="chapter__text">
           <p class="kicker">Clipboard</p>
           <h2>Your clipboard, remembered.</h2>
@@ -143,12 +163,12 @@
         </div>
       </article>
 
-      <article class="chapter reveal">
+      <article class="chapter chapter--flip reveal">
         <div class="chapter__text">
           <p class="kicker">Windows and menus</p>
           <h2>Windows and menus, without the mouse.</h2>
-          <p>Send the window in front to a half, a third or the whole screen, and put it back. Switch between windows by name. And every menu item of the app you're in is a search away: <span class="mono">:export pdf</span> finds it and shows its shortcut, and Enter chooses it.</p>
-          <p class="commands"><span class="mono">:left</span><span class="mono">:max</span><span class="mono">:restore</span><span class="mono">:export pdf</span></p>
+          <p>Send the window in front to a half, a third or the whole screen, and put it back. Switch between windows by name. And every menu item of the app you're in is a search away: <span class="mono">:export pdf</span> finds it and shows its shortcut, and Enter chooses it. The Mac answers the same way: play, pause and skip the music, mute, switch to your headphones, or keep the screen awake.</p>
+          <p class="commands"><span class="mono">:left</span><span class="mono">:restore</span><span class="mono">:export pdf</span><span class="mono">:play</span><span class="mono">:mute</span><span class="mono">:awake</span></p>
         </div>
         <div class="chapter__visual" aria-hidden="true">
           <div class="desk">
@@ -160,7 +180,7 @@
         </div>
       </article>
 
-      <article class="chapter chapter--flip reveal">
+      <article class="chapter reveal">
         <div class="chapter__text">
           <p class="kicker">Your day</p>
           <h2>Your day, a keystroke away.</h2>
@@ -179,7 +199,7 @@
         </div>
       </article>
 
-      <article class="chapter reveal">
+      <article class="chapter chapter--flip reveal">
         <div class="chapter__text">
           <p class="kicker">Yours</p>
           <h2>Make it yours.</h2>
@@ -240,7 +260,7 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
       <div class="download__cta">
         <a class="btn btn--primary" href="https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>
-          Download Copperlight 0.2
+          Download Copperlight 0.3
         </a>
         <p class="meta">macOS 15 or later · Apple silicon and Intel · 8 MB</p>
       </div>

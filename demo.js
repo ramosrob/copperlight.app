@@ -1,5 +1,6 @@
 // The page's moving parts: the live launcher in "Try it", the hero typing queries, and sections fading in.
-import { match } from "./match.js";
+import { match, modeOf } from "./match.js";
+import { modes } from "./entries.js";
 
 const HERO_QUERIES = ["29.99 eur in usd", "3pm lisbon in sf", "saf", "20% of 150", "10 km in mi"];
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -50,11 +51,25 @@ export function renderRows(container, rows, selected, idPrefix) {
 
 export function initDemo(root) {
   const input = root.querySelector("[data-demo-input]");
+  const modeChip = root.querySelector("[data-demo-mode]");
+  const placeholder = input.placeholder;
   const results = root.querySelector("[data-demo-results]");
   const status = root.querySelector("[data-demo-status]");
   const toast = root.querySelector("[data-demo-toast]");
   const chips = [...root.querySelectorAll("[data-query]")];
-  let rows = [], selected = 0, toastTimer, inView = false;
+  let rows = [], selected = 0, toastTimer, inView = false, mode = null;
+
+  // What's typed, the chip's name included: "translate bom dia".
+  const query = () => (mode ? mode.prefix : "") + input.value;
+  // Tab, or an example: the name `text` starts with turns into the chip, and the field keeps what follows. Typing never
+  // does it, as in the app: "stock apple" may be a file's name.
+  const setMode = (text) => {
+    mode = modeOf(text);
+    input.value = mode ? text.slice(mode.prefix.length).trimStart() : text;
+    modeChip.textContent = mode ? mode.title : "";
+    modeChip.hidden = !mode;
+    input.placeholder = mode ? mode.hint : placeholder;
+  };
 
   // What a screen reader hears for a row: "Safari, Application, Open".
   const describe = (row) => `${row.title}, ${row.subtitle}, ${row.action}`;
@@ -65,11 +80,11 @@ export function initDemo(root) {
     else input.removeAttribute("aria-activedescendant");
   };
   const show = () => {
-    rows = match(input.value) ?? [];
+    rows = match(query(), undefined, Boolean(mode)) ?? [];
     selected = 0;
     render();
     status.textContent = rows.length ? `${describe(rows[0])}. ${rows.length} results.` : "";
-    for (const chip of chips) chip.classList.toggle("is-current", chip.dataset.query === input.value);
+    for (const button of chips) button.classList.toggle("is-current", button.dataset.query === query());
   };
   const select = (index) => {
     selected = (index + rows.length) % rows.length;
@@ -94,6 +109,20 @@ export function initDemo(root) {
     } else if (event.key === "Enter") {
       event.preventDefault();
       run();
+    } else if (event.key === "Tab" && !mode) {
+      // The name typed (with or without its space) becomes the chip. Nothing to make one of: Tab moves on as usual.
+      const lower = query().toLowerCase();
+      const name = modeOf(lower)?.prefix ?? modes.map((m) => m.prefix).filter((prefix) => lower && prefix.startsWith(lower)).sort((a, b) => a.length - b.length)
+        .find((prefix, _, names) => names.every((other) => other.startsWith(prefix)));
+      if (!name) return;
+      event.preventDefault();
+      setMode(lower.startsWith(name) ? query() : name);
+      show();
+    } else if (event.key === "Backspace" && mode && !input.value) {
+      // Delete in the empty field after a chip: the chip turns back into its name, as if the space was deleted.
+      event.preventDefault();
+      setMode(mode.prefix.slice(0, -1));
+      show();
     }
   });
   // Clicking a row leaves the keyboard in the field, so the arrows keep moving the selection.
@@ -104,9 +133,9 @@ export function initDemo(root) {
     select([...results.children].indexOf(row));
     run();
   });
-  for (const chip of chips) {
-    chip.addEventListener("click", () => {
-      input.value = chip.dataset.query;
+  for (const button of chips) {
+    button.addEventListener("click", () => {
+      setMode(button.dataset.query);
       show();
       // With a mouse, typing can carry on from here; on a phone, focusing would pop up the keyboard.
       if (finePointer.matches) input.focus({ preventScroll: true });

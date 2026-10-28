@@ -67,6 +67,20 @@ test("no features the app doesn't have", () => {
   }
 });
 
+test("a name that takes text is a mode: in its chip, its rows come alone, as in the app", async () => {
+  const { modeOf } = await import("../match.js");
+  assert.equal(modeOf("translate bom dia")?.title, "Translate");
+  assert.equal(modeOf("Define serendipity")?.title, "Define");
+  assert.equal(modeOf("translate"), null, "not without its space");
+  assert.equal(modeOf("saf"), null);
+  const google = (rows) => rows.some((row) => row.title.startsWith("Search Google"));
+  const rows = match("translate bom dia", entries, true);
+  assert.equal(rows[0].title, "good morning");
+  assert.ok(!google(rows), "no Google row in a chip");
+  assert.equal(match("define nothingatall", entries, true).length, 0);
+  assert.ok(google(match("translate bom dia")), "typed without the chip, it's a search like any other");
+});
+
 test("every row is complete", () => {
   for (const row of entries.flatMap((entry) => entry.rows)) {
     for (const field of ["icon", "title", "subtitle", "action", "toast"]) {

@@ -206,5 +206,33 @@ test("v0.2's features are on the page and in the demo", () => {
   const text = visibleText(html);
   for (const phrase of ["System Settings", ":export pdf", "community script"]) assert.ok(text.includes(phrase), phrase);
   for (const chip of [":export pdf", "bluetooth"]) assert.ok(html.includes(`data-query="${chip}"`), chip);
-  assert.ok(text.includes("Download Copperlight 0.2"));
+});
+
+test("v0.3's features are on the page and in the demo", () => {
+  const text = visibleText(html);
+  for (const phrase of [":play", ":mute", ":awake", "translations", "stock prices"]) assert.ok(text.includes(phrase), phrase);
+  assert.ok(html.includes('data-query="translate bom dia"'));
+  assert.ok(text.includes("Download Copperlight 0.3"));
+  assert.ok(!/No modes/.test(text), "a name can be a chip now");
+});
+
+test("chips have a chapter of their own, right after Find, and the chapters still alternate", () => {
+  const chapters = [...html.matchAll(/<article class="chapter( chapter--flip)? reveal">([\s\S]*?)<\/article>/g)];
+  const kickers = chapters.map(([, , body]) => body.match(/<p class="kicker">([^<]+)<\/p>/)[1]);
+  assert.equal(kickers[1], "Chips");
+  assert.deepEqual(chapters.map(([, flip]) => Boolean(flip)), chapters.map((_, i) => i % 2 === 1), "text and picture alternate");
+  const chips = chapters[1][2];
+  assert.ok(visibleText(chips).includes("Press Tab"));
+  assert.match(chips, /<span class="bar__mode">Translate to German<\/span> <span class="bar__text">hello world<\/span>/);
+});
+
+test("the demo turns a name that takes text into a chip, as the app does", () => {
+  const bar = html.match(/<label class="bar bar--input">[\s\S]*?<\/label>/)[0];
+  assert.ok(bar.indexOf("data-demo-mode") < bar.indexOf("data-demo-input"), "the chip sits before the field");
+  assert.match(bar, /<span class="bar__mode" data-demo-mode hidden><\/span>/);
+  assert.match(css, /\.bar__mode\s*{/);
+  const js = read("demo.js");
+  assert.ok(js.includes('"Backspace"'), "Delete in the empty field turns the chip back into text");
+  assert.ok(js.includes('"Tab"'), "Tab makes the chip");
+  assert.ok(!/addEventListener\("input", \(\) => setMode/.test(js) && !js.includes("modeOf(query()) !== mode"), "typing never does");
 });

@@ -1,6 +1,17 @@
 // What the in-page demo knows: real Copperlight queries, each with the rows the app would show (the first is
 // selected; match() adds the app's "Search Google for …" row last). An icon is a letter or a symbol id in index.html.
 // Values like rates and times are illustrative; the page makes no network requests.
+// Names that take text after them, as in the app: typed with their space, a name becomes a chip in the field, and only
+// its rows show (no Google row).
+export const modes = [
+  { prefix: "translate ", title: "Translate", hint: "Text, or nothing for what's copied" },
+  { prefix: "define ", title: "Define", hint: "A word" },
+  { prefix: "emoji ", title: "Emoji", hint: "A word for one: party" },
+  { prefix: "add todo ", title: "Add Reminder", hint: "call mom tomorrow 5pm" },
+  { prefix: "add event ", title: "Add Calendar Event", hint: "fri 10am dentist" },
+  { prefix: ":quit ", title: "Quit Application", hint: "" },
+];
+
 export const entries = [
   {
     keys: ["safari", "saf"],
@@ -62,6 +73,14 @@ export const entries = [
   {
     keys: ["bluetooth"],
     rows: [{ icon: "i-switch", title: "Bluetooth", subtitle: "System Settings", action: "Open", toast: "Opens Bluetooth in System Settings" }],
+  },
+  {
+    keys: [":play"],
+    rows: [{ icon: "i-play", title: "Play or Pause", subtitle: "Whatever is playing", action: "Run", toast: "Plays or pauses the music" }],
+  },
+  {
+    keys: ["translate bom dia"],
+    rows: [{ icon: "i-translate", title: "good morning", subtitle: "Portuguese → English", action: "Copy", toast: "Copied good morning" }],
   },
   {
     keys: ["emoji party"],
