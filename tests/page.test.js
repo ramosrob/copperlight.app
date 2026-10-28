@@ -228,7 +228,7 @@ test("the built-in tools are listed, each with what to type and what it does", (
 
 test("v0.4: the timer, on the page and in the demo", async () => {
   const text = visibleText(html);
-  assert.ok(text.includes("Download Copperlight 0.4"));
+  assert.ok(text.includes("Download Copperlight 0.5"));
   const day = html.slice(html.indexOf('<p class="kicker">Your day</p>'), html.indexOf("</article>", html.indexOf('<p class="kicker">Your day</p>')));
   assert.ok(visibleText(day).includes("timer"), "Your day mentions the timer");
   const { entries, modes } = await import("../entries.js");
