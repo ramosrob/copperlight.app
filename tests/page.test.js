@@ -325,8 +325,6 @@ test("v0.9 too: contacts, open tabs, due reminders, text from the screen, spelli
 
 test("v0.10: learned abbreviations, Tab on a row, speed, keeping awake a while, your colors, installing an app, Bluetooth", async () => {
   const text = visibleText(html);
-  assert.ok(text.includes("Download Copperlight 0.10"));
-  assert.ok(html.includes('"softwareVersion": "0.10"'));
   for (const phrase of ["learns from what you pick", "recent documents", "Homebrew", "for an hour or two", "you picked are kept"]) {
     assert.ok(text.includes(phrase), phrase);
   }
@@ -368,4 +366,15 @@ test("answers in their own shape: the hero's one live launcher tours its example
   const js = read("demo.js");
   assert.match(js, /querySelector\("\[data-demo\]"\)/, "started from the page");
   assert.match(css, /\.demo\.is-live/, "the first card alone until demo.js makes it live");
+});
+
+test("v0.11: answers in their own shape and the weather, on the page and in the demo", async () => {
+  const text = visibleText(html);
+  assert.ok(text.includes("Download Copperlight 0.11"));
+  assert.ok(html.includes('"softwareVersion": "0.11"'));
+  const section = html.slice(html.indexOf('id="tools"'), html.indexOf('id="principles"'));
+  assert.ok([...section.matchAll(/<dd class="mono">([^<]+)<\/dd>/g)].some(([, command]) => command === "weather"));
+  assert.ok(text.includes("or the weather when you ask for one"), "the FAQ says when it goes online");
+  const { modes } = await import("../entries.js");
+  for (const prefix of ["weather ", "stock ", "contact "]) assert.ok(modes.some((mode) => mode.prefix === prefix), prefix);
 });
