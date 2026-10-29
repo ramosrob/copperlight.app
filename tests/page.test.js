@@ -308,3 +308,18 @@ test("v0.9: colors, QR codes, date math and the cursor in snippets, on the page 
   assert.equal(match("in 3 weeks")[0].title, later.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }));
   assert.match(match("in 3 weeks")[0].subtitle, /^In 21 days · week \d+$/);
 });
+
+test("v0.9 too: contacts, open tabs, due reminders, text from the screen, spelling, Large Type, calculator phrases", async () => {
+  const text = visibleText(html);
+  for (const phrase of ["contacts", "open tabs", "Due reminders", "Text from the screen", "Spelling", "Large Type"]) {
+    assert.ok(text.includes(phrase), phrase);
+  }
+  const { entries } = await import("../entries.js");
+  const { match } = await import("../match.js");
+  const keys = entries.flatMap((entry) => entry.keys);
+  for (const key of ["ana", "inbox", "due", "copy text", "spell definately", "large 555-0100", "20% off 80", "30 is what % of 150"]) {
+    assert.ok(keys.includes(key), key);
+  }
+  assert.equal(match("ana")[0].action, "Message");
+  assert.equal(match("20% off 80")[0].title, "64");
+});

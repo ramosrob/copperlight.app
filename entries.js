@@ -42,6 +42,50 @@ export const entries = [
     ],
   },
   {
+    keys: ["ana"],
+    rows: [{
+      icon: "i-person", title: "Ana Ribeiro", subtitle: "+1 415 555 0134 · ana@northwind.example", action: "Message",
+      toast: "Opens Messages with Ana; Tab lists call, FaceTime, WhatsApp and email",
+    }],
+  },
+  {
+    keys: ["inbox"],
+    rows: [{
+      icon: "i-window", title: "Inbox (3) – Northwind Mail", subtitle: "mail.northwind.example · Tab", action: "Switch to Tab",
+      toast: "Brings that tab forward instead of opening it again",
+    }],
+  },
+  {
+    keys: ["due"],
+    rows: [
+      { icon: "i-calendar", title: "Call the bank", subtitle: "Overdue · Errands", action: "Complete", toast: "Ticks it off in Reminders" },
+      { icon: "i-calendar", title: "Send the invoice", subtitle: "In 20 min · Work", action: "Complete", toast: "Ticks it off in Reminders" },
+    ],
+  },
+  {
+    keys: ["copy text"],
+    rows: [{ icon: "i-image", title: "Copy Text from Screen", subtitle: "Drag over anything to copy its text", action: "Select", toast: "Drag over any part of the screen: its text is copied" }],
+  },
+  {
+    keys: ["spell definately"],
+    rows: [
+      { icon: "i-book", title: "definitely", subtitle: "Spelling of “definately”", action: "Copy", toast: "Copied definitely" },
+      { icon: "i-book", title: "defiantly", subtitle: "Spelling of “definately”", action: "Copy", toast: "Copied defiantly" },
+    ],
+  },
+  {
+    keys: ["large 555-0100"],
+    rows: [{ icon: "A", title: "555-0100", subtitle: "Large Type", action: "Show", toast: "Shows 555-0100 across the screen" }],
+  },
+  {
+    keys: ["20% off 80"],
+    rows: [{ icon: "=", title: "64", subtitle: "20% off 80", action: "Copy", toast: "Copied 64; Tab would put it in the field, to keep going" }],
+  },
+  {
+    keys: ["30 is what % of 150"],
+    rows: [{ icon: "=", title: "20%", subtitle: "30 is what % of 150", action: "Copy", toast: "Copied 20%" }],
+  },
+  {
     keys: ["150 + 20%"],
     rows: [{ icon: "=", title: "180", subtitle: "150 + 20%", action: "Copy", toast: "Copied 180" }],
   },

@@ -132,6 +132,7 @@
 
 <svg class="sprite" aria-hidden="true">
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h4.5"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5.5 19.5c.8-3.4 3.4-5.5 6.5-5.5s5.7 2.1 6.5 5.5"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
   <symbol id="i-eyedropper" viewBox="0 0 24 24"><path d="M13.5 6.5l4 4M15.6 4.4a2.1 2.1 0 0 1 3 0l1 1a2.1 2.1 0 0 1 0 3l-2.1 2.1-4-4 2.1-2.1zM13.5 8.5l-7.6 7.6-.9 3.9 3.9-.9 7.6-7.6"/></symbol>
   <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2.5v2.5H14zM17.5 17.5H20V20h-2.5zM14 20h1M20 14v1"/></symbol>
@@ -208,6 +209,7 @@
         <button type="button" class="chip" data-query=":left">:left</button>
         <button type="button" class="chip" data-query=":export pdf">:export pdf</button>
         <button type="button" class="chip" data-query="meetings">meetings</button>
+        <button type="button" class="chip" data-query="ana">ana</button>
         <button type="button" class="chip" data-query="days until christmas">days until christmas</button>
         <button type="button" class="chip" data-query="bluetooth">bluetooth</button>
         <button type="button" class="chip" data-query="battery">battery</button>
@@ -233,7 +235,7 @@
         <div class="chapter__text">
           <p class="kicker">Find</p>
           <h2>Everything, from one field.</h2>
-          <p>Apps, files and folders, your browser's bookmarks and history, System Settings pages, math, currency, units, time zones, dates, colors, translations, stock prices, and your Mac’s own numbers: battery, disk space, IP, open ports. No menus to dig through: start typing, press Enter. Select text anywhere first and it’s already typed; <span class="keys"><kbd>↑</kbd></span> brings back what you ran.</p>
+          <p>Apps, files and folders, people from your contacts, your browser's open tabs, bookmarks and history, System Settings pages, math, currency, units, time zones, dates, colors, translations, stock prices, and your Mac’s own numbers: battery, disk space, IP, open ports. No menus to dig through: start typing, press Enter. Select text anywhere first and it’s already typed; <span class="keys"><kbd>↑</kbd></span> brings back what you ran.</p>
         </div>
         <div class="chapter__visual stack" aria-hidden="true">
           <div class="mini"><div class="mini__bar">saf</div><div class="row is-selected"><span class="row__icon" aria-hidden="true">S</span> <span class="row__text"><span class="row__title">Safari</span> <span class="row__subtitle">Application</span></span> <span class="row__action">↵ Open</span></div></div>
@@ -388,6 +390,21 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
           <dd>The rest of today&rsquo;s calendar, the next call waiting when you open it. Enter joins.</dd>
         </div>
         <div class="tool">
+          <dt>Contacts</dt>
+          <dd class="mono">ana</dd>
+          <dd>Type a name and Enter messages them. Tab for call, FaceTime, WhatsApp or email.</dd>
+        </div>
+        <div class="tool">
+          <dt>Due reminders</dt>
+          <dd class="mono">due</dd>
+          <dd>What&rsquo;s overdue or due soon, waiting when you open it. Enter ticks it off.</dd>
+        </div>
+        <div class="tool">
+          <dt>Browser tabs</dt>
+          <dd class="mono">tabs</dd>
+          <dd>The tabs already open, found by their title. Enter switches to one instead of opening it again.</dd>
+        </div>
+        <div class="tool">
           <dt>Translate</dt>
           <dd class="mono">translate</dd>
           <dd>On-device translation of what you type, or of what you copied.</dd>
@@ -446,6 +463,21 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
           <dt>QR codes</dt>
           <dd class="mono">qr</dd>
           <dd>A QR code of a link or any text, or of what you copied, ready to paste.</dd>
+        </div>
+        <div class="tool">
+          <dt>Text from the screen</dt>
+          <dd class="mono">copy text</dd>
+          <dd>Drag over a video, a picture or an error you can&rsquo;t select, and its text is copied.</dd>
+        </div>
+        <div class="tool">
+          <dt>Spelling</dt>
+          <dd class="mono">spell definately</dd>
+          <dd>The word spelled right, or a whole sentence corrected, ready to paste.</dd>
+        </div>
+        <div class="tool">
+          <dt>Large Type</dt>
+          <dd class="mono">large 555-0100</dd>
+          <dd>Any text across the screen, big enough to read from across the room.</dd>
         </div>
         <div class="tool">
           <dt>Conversions</dt>
