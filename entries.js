@@ -14,6 +14,7 @@ export const modes = [
   { prefix: "qr ", title: "QR Code", hint: "Text or a link, or nothing for what's copied" },
   { prefix: "port ", title: "Port", hint: "A port number, like 3000" },
   { prefix: ":layout ", title: "Layout", hint: "" },
+  { prefix: ":connect ", title: "Connect Bluetooth Device", hint: "" },
 ];
 
 // Dates are worked out from today, as the app does, so the demo is never out of date.
@@ -147,6 +148,14 @@ export const entries = [
     rows: [{ icon: "i-eyedropper", title: "Pick Color", subtitle: "Click anywhere on the screen to copy its color", action: "Pick", toast: "Shows the magnifier: the color you click is copied" }],
   },
   {
+    keys: ["colors", "my colors"],
+    rows: [
+      { icon: "#c87533", title: "#c87533", subtitle: "rgb(200, 117, 51)", action: "Copy", toast: "Copied #c87533" },
+      { icon: "#2f6f8f", title: "#2f6f8f", subtitle: "rgb(47, 111, 143)", action: "Copy", toast: "Copied #2f6f8f" },
+      { icon: "#e8d5b7", title: "#e8d5b7", subtitle: "rgb(232, 213, 183)", action: "Copy", toast: "Copied #e8d5b7" },
+    ],
+  },
+  {
     keys: ["qr https://copperlight.app"],
     rows: [{ icon: "i-qr", title: "https://copperlight.app", subtitle: "QR code", action: "Copy", toast: "Copied the QR code" }],
   },
@@ -191,6 +200,14 @@ export const entries = [
     ],
   },
   {
+    keys: ["speed", "speedtest"],
+    rows: [{ icon: "i-gauge", title: "Test Internet Speed", subtitle: "Download, upload and latency, with Apple’s servers", action: "Test", toast: "Tests for about 20 seconds, then shows your speed" }],
+  },
+  {
+    keys: ["figma"],
+    rows: [{ icon: "i-download", title: "Install Figma", subtitle: "With Homebrew · Collaborative team software", action: "Install", toast: "Runs brew install --cask figma, its output beside the row" }],
+  },
+  {
     keys: ["port 3000", "port"],
     rows: [{ icon: "i-terminal", title: "node", subtitle: "Listening on 3000 · pid 812", action: "End Process", toast: "Asks first, then ends node" }],
   },
@@ -217,6 +234,21 @@ export const entries = [
   {
     keys: ["timer 10 min tea"],
     rows: [{ icon: "i-hourglass", title: "Start Timer", subtitle: "10 minutes · tea", action: "Start", toast: "Starts a 10-minute timer for tea" }],
+  },
+  {
+    keys: [":awake 2h"],
+    get rows() {
+      const until = new Date(Date.now() + 2 * 3600 * 1000);
+      const time = `${String(until.getHours()).padStart(2, "0")}:${String(until.getMinutes()).padStart(2, "0")}`;
+      return [{ icon: "i-sun", title: "Keep Awake for 2 hours", subtitle: `Until ${time}`, action: "Run", toast: `Keeps your Mac awake until ${time}` }];
+    },
+  },
+  {
+    keys: [":connect airpods", ":connect"],
+    rows: [
+      { icon: "i-headphones", title: "AirPods Pro", subtitle: "Bluetooth", action: "Connect", toast: "Connects your AirPods in a few seconds" },
+      { icon: "i-keyboard", title: "Magic Keyboard", subtitle: "Connected", action: "Disconnect", toast: "Disconnects the keyboard" },
+    ],
   },
   {
     keys: [":play"],

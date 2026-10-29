@@ -285,8 +285,6 @@ test("v0.8: the stopwatch, timer until, and what's running waiting when it opens
 
 test("v0.9: colors, QR codes, date math and the cursor in snippets, on the page and in the demo", async () => {
   const text = visibleText(html);
-  assert.ok(text.includes("Download Copperlight 0.9"));
-  assert.ok(html.includes('"softwareVersion": "0.9"'));
   for (const phrase of ["pick color", "QR code", "days until", "dates", "the cursor"]) assert.ok(text.includes(phrase), phrase);
   const { entries, modes } = await import("../entries.js");
   const { match } = await import("../match.js");
@@ -322,4 +320,24 @@ test("v0.9 too: contacts, open tabs, due reminders, text from the screen, spelli
   }
   assert.equal(match("ana")[0].action, "Message");
   assert.equal(match("20% off 80")[0].title, "64");
+});
+
+test("v0.10: learned abbreviations, Tab on a row, speed, keeping awake a while, your colors, installing an app, Bluetooth", async () => {
+  const text = visibleText(html);
+  assert.ok(text.includes("Download Copperlight 0.10"));
+  assert.ok(html.includes('"softwareVersion": "0.10"'));
+  for (const phrase of ["learns from what you pick", "recent documents", "Homebrew", "for an hour or two", "you picked are kept"]) {
+    assert.ok(text.includes(phrase), phrase);
+  }
+  const section = html.slice(html.indexOf('id="tools"'), html.indexOf('id="principles"'));
+  const commands = [...section.matchAll(/<dd class="mono">([^<]+)<\/dd>/g)].map(([, command]) => command);
+  for (const command of ["speed", ":connect airpods"]) assert.ok(commands.includes(command), command);
+  const { entries, modes } = await import("../entries.js");
+  const { match } = await import("../match.js");
+  const keys = entries.flatMap((entry) => entry.keys);
+  for (const key of ["speed", ":connect airpods", ":awake 2h", "colors", "figma"]) assert.ok(keys.includes(key), key);
+  assert.ok(modes.some((mode) => mode.prefix === ":connect "));
+  assert.ok(html.includes('data-query=":connect airpods"'));
+  assert.match(match(":awake 2h")[0].subtitle, /^Until \d\d:\d\d$/, "worked out from now, as in the app");
+  assert.deepEqual(match("figma")[0].title, "Install Figma");
 });
