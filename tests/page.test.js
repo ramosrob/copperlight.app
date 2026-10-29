@@ -378,3 +378,9 @@ test("v0.11: answers in their own shape and the weather, on the page and in the 
   const { modes } = await import("../entries.js");
   for (const prefix of ["weather ", "stock ", "contact "]) assert.ok(modes.some((mode) => mode.prefix === prefix), prefix);
 });
+
+test("the nav asks for a star on GitHub, not for sponsoring", () => {
+  const nav = html.match(/<nav class="nav__links"[\s\S]*?<\/nav>/)[0];
+  assert.match(nav, /<a class="nav__star" href="https:\/\/github\.com\/ramosrob\/copperlight" aria-label="Star Copperlight on GitHub">/);
+  assert.ok(!nav.includes("sponsors"), "sponsoring stays in the footer");
+});
