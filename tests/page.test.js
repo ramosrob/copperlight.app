@@ -88,7 +88,7 @@ const URLS = {
 const LAUNCHERS = /raycast|alfred|launchbar/i;
 
 test("sections in order", () => {
-  const at = ['class="hero', 'id="try"', 'id="features"', 'id="principles"', 'id="download"', "<footer"].map((s) => html.indexOf(s));
+  const at = ['class="hero', 'id="answers"', 'id="try"', 'id="features"', 'id="principles"', 'id="download"', "<footer"].map((s) => html.indexOf(s));
   assert.ok(at.every((i) => i >= 0), `missing: ${at}`);
   assert.deepEqual([...at].sort((a, b) => a - b), at);
 });
@@ -342,25 +342,29 @@ test("v0.10: learned abbreviations, Tab on a row, speed, keeping awake a while, 
   assert.deepEqual(match("figma")[0].title, "Install Figma");
 });
 
-test("answers in their own shape: real screenshots of the stock, the color, the QR code and a currency, light and described", () => {
+test("answers in their own shape: one launcher types each answer's query, its card taking the shape below", () => {
   const start = html.indexOf('id="answers"');
-  assert.ok(start > html.indexOf('id="try"') && start < html.indexOf('id="features"'), "right after the demo, before the chapters");
+  assert.ok(start > html.indexOf('class="hero') && start < html.indexOf('id="try"'), "right after the hero, before the demo");
   const section = html.slice(start, html.indexOf("</section>", start));
   assert.ok(visibleText(section).includes("Answers in their own shape"));
-  // Two by two, each row's pair the same size, so their edges and captions line up.
-  const sizes = [...section.matchAll(/<img[^>]*src="media\/(\w+)-1522\.webp"[^>]*height="(\d+)"/g)].map((m) => [m[1], m[2]]);
-  assert.deepEqual(sizes.map(([name]) => name), ["stocks", "colors", "qr", "currency"]);
-  assert.ok(sizes[0][1] === sizes[1][1] && sizes[2][1] === sizes[3][1], "a row's pair the same height");
-  assert.ok(!section.includes("shot--wide"));
-  for (const name of ["stocks", "qr", "colors", "currency"]) {
-    const img = section.match(new RegExp(`<img[^>]*src="media/${name}-1522\\.webp"[^>]*>`))?.[0];
-    assert.ok(img, name);
-    assert.match(img, /srcset="media\/\w+-760\.webp 760w, media\/\w+-1522\.webp 1522w"/, `${name}: a smaller one for phones`);
-    assert.match(img, /width="1522" height="\d+"/, `${name}: its size, so nothing jumps`);
+  assert.match(section, /data-answers-text/, "a field it types into");
+  assert.match(section, /data-answers-chips/, "a chip per answer, made by demo.js");
+  const cards = [...section.matchAll(/<li class="answers__card"([^>]*)>([\s\S]*?)<\/li>/g)];
+  const names = cards.map(([, , body]) => body.match(/src="media\/answer-(\w+)-1364\.webp"/)?.[1]);
+  assert.deepEqual(names, ["stocks", "calc", "define", "currency", "contact", "speed", "colors", "meeting", "qr"], "every shape, alternating");
+  for (const [, attributes, body] of cards) {
+    const name = body.match(/answer-(\w+)-1364/)[1];
+    assert.match(attributes, /data-answer="[^"]*"/, `${name}: what to type`);
+    const img = body.match(/<img[^>]*>/)[0];
+    assert.match(img, /srcset="media\/answer-\w+-682\.webp 682w, media\/answer-\w+-1364\.webp 1364w"/, `${name}: a smaller one`);
+    assert.match(img, /width="1364" height="\d+"/, `${name}: its size, so nothing jumps`);
     assert.match(img, /loading="lazy"/, `${name}: lazy`);
     assert.match(img, /alt="[^"]{30,}"/, `${name}: described`);
-    for (const width of [760, 1522]) assert.ok(statSync(new URL(`../media/${name}-${width}.webp`, import.meta.url)).size < 80 * 1024);
+    assert.match(body, /<span class="mono">[^<]+<\/span>/, `${name}: its command in the caption`);
+    for (const width of [682, 1364]) assert.ok(statSync(new URL(`../media/answer-${name}-${width}.webp`, import.meta.url)).size < 60 * 1024);
   }
-  for (const command of ["stock aapl", "qr", "#c87533", "pick color", "25 usd to eur"]) assert.ok(section.includes(`<span class="mono">${command}</span>`), command);
-  assert.match(css, /\.answers__grid\s*{/);
+  const js = read("demo.js");
+  assert.match(js, /export function initAnswers/);
+  assert.match(js, /querySelector\("\[data-answers\]"\)/, "started from the page");
+  assert.match(css, /\.answers__stage\.is-live/, "a list until demo.js makes it live");
 });

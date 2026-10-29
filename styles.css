@@ -371,17 +371,32 @@ kbd {
 .t-s { color: #D9C2A3; }
 .t-c { color: var(--text-2); }
 
-/* Answers in their own shape: real screenshots two by two, each row's pair the same size */
+/* Answers in their own shape: a list of real cards until demo.js makes it live. Then one launcher types each answer's
+   query, its card cross-fading in below while the height eases from one shape to the next. */
 .answers { text-align: center; }
-.answers__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 32px); margin-top: 52px; text-align: left; }
-.shot { margin: 0; }
-.shot img {
-  display: block; width: 100%; height: auto; border-radius: 18px;
-  border: 1px solid var(--line); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.85);
+.answers__stage { width: min(682px, 100%); margin: 52px auto 0; }
+.answers__stage:not(.is-live) .bar, .answers__stage:not(.is-live) .answers__chips { display: none; }
+.answers__cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 40px; }
+.answers__card img { display: block; width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55)); }
+.answers__card p { margin: 16px 0 0; font-size: 15px; line-height: 1.5; color: var(--text-2); text-align: center; }
+.answers__card .mono { margin-right: 8px; font-size: 12.5px; padding: 3px 8px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); color: #D8CEC4; white-space: nowrap; }
+.answers__stage.is-live .answers__cards { display: block; position: relative; margin-top: 12px; transition: height 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.answers__stage.is-live .answers__card {
+  position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(10px) scale(0.985); pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.shot figcaption { margin-top: 16px; font-size: 15px; line-height: 1.5; color: var(--text-2); }
-.shot figcaption .mono { margin-right: 8px; font-size: 12.5px; padding: 3px 8px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); color: #D8CEC4; white-space: nowrap; }
-@media (max-width: 760px) { .answers__grid { grid-template-columns: minmax(0, 1fr); } }
+.answers__stage.is-live .answers__card.is-current { opacity: 1; transform: none; pointer-events: auto; transition-delay: 0.12s; }
+.answers__stage .bar__text--placeholder { order: 1; }
+.answers__chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 28px auto 0; }
+.answers__chips .chip { position: relative; overflow: hidden; }
+/* While it tours, the answer showing fills its chip from the left; it waits, filling, when the tour does. */
+.answers__chips .chip::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: var(--copper-light); transform: scaleX(0); transform-origin: left;
+}
+.answers__stage.is-touring .chip.is-current::after { animation: answer-hold var(--hold) linear forwards; }
+.answers__stage.is-paused .chip.is-current::after { animation-play-state: paused; }
+@keyframes answer-hold { to { transform: scaleX(1); } }
 
 /* The built-in tools: a quiet two-column list, name and what to type, then what it does */
 .tools { text-align: center; }

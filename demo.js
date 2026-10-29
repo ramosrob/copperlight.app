@@ -1,4 +1,5 @@
-// The page's moving parts: the live launcher in "Try it", the hero typing queries, and sections fading in.
+// The page's moving parts: the live launcher in "Try it", the hero typing queries, the answers taking their shapes,
+// and sections fading in.
 import { match, modeOf } from "./match.js";
 import { modes } from "./entries.js";
 
@@ -186,6 +187,105 @@ export function initHeroLoop(textEl, resultsEl, queries) {
   })();
 }
 
+// Answers in their own shape: the launcher types each answer's query (a name that takes text becoming its chip, as in
+// the app), and its card takes its shape below. It tours them once, then the first stays: moving content shouldn't go
+// on forever. It waits while off screen or under the pointer; a chip shows its answer at once and ends the tour. Under
+// reduced motion nothing types or tours, and the chips still show each one.
+const ANSWER_HOLD = 3600;
+export function initAnswers(stage) {
+  const cards = [...stage.querySelectorAll("[data-answer]")];
+  const stack = stage.querySelector("[data-answers-cards]");
+  const text = stage.querySelector("[data-answers-text]");
+  const mode = stage.querySelector("[data-answers-mode]");
+  let current = 0, run = 0, touring = !reducedMotion.matches, onScreen = false, held = false;
+  stage.style.setProperty("--hold", `${ANSWER_HOLD}ms`);
+  stage.classList.add("is-live");
+  stage.classList.toggle("is-touring", touring);
+  const chips = cards.map((card, index) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chip";
+    chip.textContent = card.dataset.label ?? card.dataset.answer;
+    chip.addEventListener("click", () => {
+      touring = false;
+      stage.classList.remove("is-touring");
+      show(index, false);
+    });
+    stage.querySelector("[data-answers-chips]").append(chip);
+    return chip;
+  });
+  const chipAt = (card) => (card.dataset.mode ? card.dataset.answer.length - (card.dataset.text ?? "").length : Infinity);
+  const fit = () => { stack.style.height = `${cards[current].offsetHeight}px`; };
+  const pause = () => stage.classList.toggle("is-paused", !onScreen || held);
+
+  // The field as far as `typed`: its chip once the name is typed, what follows it, or the placeholder for nothing.
+  function field(card, typed) {
+    const at = chipAt(card), empty = !card.dataset.answer;
+    mode.hidden = typed.length < at;
+    mode.textContent = card.dataset.mode ?? "";
+    text.classList.toggle("bar__text--placeholder", empty);
+    text.textContent = empty ? "Type anything" : typed.length < at ? typed : typed.slice(at);
+  }
+
+  async function show(index, typing) {
+    const mine = ++run, from = cards[current], to = cards[index];
+    if (typing) {
+      for (let typed = from.dataset.answer; typed; ) {
+        typed = typed.length === chipAt(from) ? "" : typed.slice(0, -1); // a chip goes in one backspace
+        field(from, typed);
+        await wait(24);
+        if (mine !== run) return;
+      }
+      field(to, "");
+      await wait(260);
+      let typed = "";
+      for (const char of to.dataset.answer) {
+        field(to, (typed += char));
+        await wait(48 + Math.random() * 46);
+        if (mine !== run) return;
+      }
+      await wait(160);
+      if (mine !== run) return;
+    } else {
+      field(to, to.dataset.answer);
+    }
+    current = index;
+    cards.forEach((card, i) => {
+      card.classList.toggle("is-current", i === index);
+      card.setAttribute("aria-hidden", String(i !== index));
+    });
+    chips.forEach((chip, i) => {
+      chip.classList.toggle("is-current", i === index);
+      chip.setAttribute("aria-current", String(i === index));
+    });
+    fit();
+  }
+
+  // Waits ANSWER_HOLD, counting only while it's on screen and not under the pointer.
+  async function hold() {
+    for (let left = ANSWER_HOLD; left > 0; ) {
+      await wait(100);
+      if (onScreen && !held) left -= 100;
+    }
+  }
+
+  new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; pause(); }, { threshold: 0.3 }).observe(stage);
+  stage.addEventListener("pointerenter", () => { held = true; pause(); });
+  stage.addEventListener("pointerleave", () => { held = false; pause(); });
+  addEventListener("resize", fit);
+  show(0, false);
+  if (!touring) return;
+  (async () => {
+    for (const index of [...cards.keys()].slice(1).concat(0)) {
+      await hold();
+      if (!touring) return;
+      await show(index, true);
+    }
+    touring = false;
+    stage.classList.remove("is-touring");
+  })();
+}
+
 // Sections fade in as they arrive. The hiding class is set here, so nothing hides if this never runs.
 export function initReveal() {
   if (reducedMotion.matches || !("IntersectionObserver" in window)) return;
@@ -204,4 +304,6 @@ const demo = document.querySelector("#try");
 if (demo) initDemo(demo);
 const heroText = document.querySelector("[data-hero-text]");
 if (heroText) initHeroLoop(heroText, document.querySelector("[data-hero-results]"), HERO_QUERIES);
+const answers = document.querySelector("[data-answers]");
+if (answers) initAnswers(answers);
 initReveal();
