@@ -371,18 +371,15 @@ kbd {
 .t-s { color: #D9C2A3; }
 .t-c { color: var(--text-2); }
 
-/* Answers in their own shape: real screenshots, the stock wide, the QR code and the color side by side */
+/* Answers in their own shape: real screenshots two by two, each row's pair the same size */
 .answers { text-align: center; }
 .answers__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 32px); margin-top: 52px; text-align: left; }
 .shot { margin: 0; }
-.shot--wide { grid-column: 1 / -1; }
-.shot--wide img { max-width: 860px; margin-inline: auto; }
 .shot img {
   display: block; width: 100%; height: auto; border-radius: 18px;
   border: 1px solid var(--line); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.85);
 }
 .shot figcaption { margin-top: 16px; font-size: 15px; line-height: 1.5; color: var(--text-2); }
-.shot--wide figcaption { max-width: 860px; margin-inline: auto; }
 .shot figcaption .mono { margin-right: 8px; font-size: 12.5px; padding: 3px 8px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); color: #D8CEC4; white-space: nowrap; }
 @media (max-width: 760px) { .answers__grid { grid-template-columns: minmax(0, 1fr); } }
 

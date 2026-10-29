@@ -342,12 +342,17 @@ test("v0.10: learned abbreviations, Tab on a row, speed, keeping awake a while, 
   assert.deepEqual(match("figma")[0].title, "Install Figma");
 });
 
-test("answers in their own shape: real screenshots of the QR code, the stock and the color, light and described", () => {
+test("answers in their own shape: real screenshots of the stock, the color, the QR code and a currency, light and described", () => {
   const start = html.indexOf('id="answers"');
-  assert.ok(start > html.indexOf('id="features"') && start < html.indexOf('id="tools"'), "between the chapters and the tools");
+  assert.ok(start > html.indexOf('id="try"') && start < html.indexOf('id="features"'), "right after the demo, before the chapters");
   const section = html.slice(start, html.indexOf("</section>", start));
   assert.ok(visibleText(section).includes("Answers in their own shape"));
-  for (const name of ["stocks", "qr", "colors"]) {
+  // Two by two, each row's pair the same size, so their edges and captions line up.
+  const sizes = [...section.matchAll(/<img[^>]*src="media\/(\w+)-1522\.webp"[^>]*height="(\d+)"/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(sizes.map(([name]) => name), ["stocks", "colors", "qr", "currency"]);
+  assert.ok(sizes[0][1] === sizes[1][1] && sizes[2][1] === sizes[3][1], "a row's pair the same height");
+  assert.ok(!section.includes("shot--wide"));
+  for (const name of ["stocks", "qr", "colors", "currency"]) {
     const img = section.match(new RegExp(`<img[^>]*src="media/${name}-1522\\.webp"[^>]*>`))?.[0];
     assert.ok(img, name);
     assert.match(img, /srcset="media\/\w+-760\.webp 760w, media\/\w+-1522\.webp 1522w"/, `${name}: a smaller one for phones`);
@@ -356,6 +361,6 @@ test("answers in their own shape: real screenshots of the QR code, the stock and
     assert.match(img, /alt="[^"]{30,}"/, `${name}: described`);
     for (const width of [760, 1522]) assert.ok(statSync(new URL(`../media/${name}-${width}.webp`, import.meta.url)).size < 80 * 1024);
   }
-  for (const command of ["stock aapl", "qr", "#c87533", "pick color"]) assert.ok(section.includes(`<span class="mono">${command}</span>`), command);
+  for (const command of ["stock aapl", "qr", "#c87533", "pick color", "25 usd to eur"]) assert.ok(section.includes(`<span class="mono">${command}</span>`), command);
   assert.match(css, /\.answers__grid\s*{/);
 });
