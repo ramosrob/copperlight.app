@@ -88,7 +88,7 @@ const URLS = {
 const LAUNCHERS = /raycast|alfred|launchbar/i;
 
 test("sections in order", () => {
-  const at = ['class="hero', 'id="answers"', 'id="try"', 'id="features"', 'id="principles"', 'id="download"', "<footer"].map((s) => html.indexOf(s));
+  const at = ['class="hero', "data-demo", 'id="features"', 'id="principles"', 'id="download"', "<footer"].map((s) => html.indexOf(s));
   assert.ok(at.every((i) => i >= 0), `missing: ${at}`);
   assert.deepEqual([...at].sort((a, b) => a - b), at);
 });
@@ -180,7 +180,7 @@ test("chips come before the field, so results never push them around", () => {
 });
 
 test("the hero points to the Open Anyway explanation", () => {
-  const hero = html.slice(html.indexOf('class="hero'), html.indexOf('id="try"'));
+  const hero = html.slice(html.indexOf('class="hero'), html.indexOf('id="features"'));
   assert.ok(hero.includes('href="#download"'));
 });
 
@@ -202,10 +202,11 @@ test("the config example says which keys option+space is", () => {
   assert.match(html, /"option\+space"<\/span>\s*<span class="t-c"># ⌥Space<\/span>/);
 });
 
-test("v0.2's features are on the page and in the demo", () => {
+test("v0.2's features are on the page and in the demo", async () => {
   const text = visibleText(html);
   for (const phrase of ["System Settings", ":export pdf", "community script"]) assert.ok(text.includes(phrase), phrase);
-  for (const chip of [":export pdf", "bluetooth"]) assert.ok(html.includes(`data-query="${chip}"`), chip);
+  const { entries } = await import("../entries.js");
+  for (const query of [":export pdf", "bluetooth"]) assert.ok(entries.some((entry) => entry.keys.includes(query)), query);
 });
 
 test("v0.3's features are on the page and in the demo", () => {
@@ -266,7 +267,7 @@ test("v0.6: windows, layouts, the Mac's numbers, the selection and ↑, on the p
   const keys = entries.flatMap((entry) => entry.keys);
   for (const key of [":top left", ":layout work", "battery", "disk", "port 3000"]) assert.ok(keys.includes(key), key);
   assert.ok(modes.some((mode) => mode.prefix === "port "));
-  for (const chip of ["battery", ":layout work"]) assert.ok(html.includes(`data-query="${chip}"`), chip);
+  assert.ok(html.includes('data-query=":layout work"'));
   assert.ok(read("match.js").includes('icon: "i-google"'), "the search row shows Google's G, as in the app");
 });
 
@@ -337,34 +338,34 @@ test("v0.10: learned abbreviations, Tab on a row, speed, keeping awake a while, 
   const keys = entries.flatMap((entry) => entry.keys);
   for (const key of ["speed", ":connect airpods", ":awake 2h", "colors", "figma"]) assert.ok(keys.includes(key), key);
   assert.ok(modes.some((mode) => mode.prefix === ":connect "));
-  assert.ok(html.includes('data-query=":connect airpods"'));
   assert.match(match(":awake 2h")[0].subtitle, /^Until \d\d:\d\d$/, "worked out from now, as in the app");
   assert.deepEqual(match("figma")[0].title, "Install Figma");
 });
 
-test("answers in their own shape: one launcher types each answer's query, its card taking the shape below", () => {
-  const start = html.indexOf('id="answers"');
-  assert.ok(start > html.indexOf('class="hero') && start < html.indexOf('id="try"'), "right after the hero, before the demo");
-  const section = html.slice(start, html.indexOf("</section>", start));
-  assert.ok(visibleText(section).includes("Answers in their own shape"));
-  assert.match(section, /data-answers-text/, "a field it types into");
-  assert.match(section, /data-answers-chips/, "a chip per answer, made by demo.js");
-  const cards = [...section.matchAll(/<li class="answers__card"([^>]*)>([\s\S]*?)<\/li>/g)];
+test("answers in their own shape: the hero's one live launcher tours its examples, an answer's card under the field", () => {
+  assert.equal(html.split("data-demo-input").length - 1, 1, "one live launcher on the page, so the field isn't shown over and over");
+  const hero = html.slice(html.indexOf('class="hero'), html.indexOf('id="features"'));
+  assert.match(hero, /data-demo-input/, "the hero's");
+  const examples = [...hero.matchAll(/data-query="([^"]*)"/g)].map(([, query]) => query);
+  const cards = [...hero.matchAll(/<li class="answers__card"([^>]*)>([\s\S]*?)<\/li>/g)];
   const names = cards.map(([, , body]) => body.match(/src="media\/answer-(\w+)-1364\.webp"/)?.[1]);
-  assert.deepEqual(names, ["stocks", "calc", "define", "currency", "contact", "speed", "colors", "meeting", "qr"], "every shape, alternating");
-  for (const [, attributes, body] of cards) {
-    const name = body.match(/answer-(\w+)-1364/)[1];
-    assert.match(attributes, /data-answer="[^"]*"/, `${name}: what to type`);
+  assert.deepEqual(names, ["weather", "currency", "stocks", "contact", "calc", "define", "speed", "colors", "qr", "meeting"], "every shape");
+  for (const [index, [, attributes, body]] of cards.entries()) {
+    const name = names[index];
+    const answer = attributes.match(/data-answer="([^"]*)"/)?.[1];
+    assert.ok(answer !== undefined && examples.includes(answer), `${name}: an example shows it`);
     const img = body.match(/<img[^>]*>/)[0];
     assert.match(img, /srcset="media\/answer-\w+-682\.webp 682w, media\/answer-\w+-1364\.webp 1364w"/, `${name}: a smaller one`);
     assert.match(img, /width="1364" height="\d+"/, `${name}: its size, so nothing jumps`);
-    assert.match(img, /loading="lazy"/, `${name}: lazy`);
+    if (index) assert.match(img, /loading="lazy"/, `${name}: lazy`);
+    else assert.doesNotMatch(img, /loading="lazy"/, "the first shows at once");
     assert.match(img, /alt="[^"]{30,}"/, `${name}: described`);
     assert.match(body, /<span class="mono">[^<]+<\/span>/, `${name}: its command in the caption`);
     for (const width of [682, 1364]) assert.ok(statSync(new URL(`../media/answer-${name}-${width}.webp`, import.meta.url)).size < 60 * 1024);
   }
+  const chapters = html.slice(html.indexOf('id="features"'), html.indexOf('id="tools"'));
+  assert.ok(visibleText(chapters).includes("Answers in their own shape"), "named in a chapter of its own");
   const js = read("demo.js");
-  assert.match(js, /export function initAnswers/);
-  assert.match(js, /querySelector\("\[data-answers\]"\)/, "started from the page");
-  assert.match(css, /\.answers__stage\.is-live/, "a list until demo.js makes it live");
+  assert.match(js, /querySelector\("\[data-demo\]"\)/, "started from the page");
+  assert.match(css, /\.demo\.is-live/, "the first card alone until demo.js makes it live");
 });

@@ -103,7 +103,7 @@
             "name": "Does Copperlight send my data anywhere?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. There’s no account, no telemetry and no AI service. It goes online only for currency rates, app descriptions (which you can turn off) and a stock price when you ask for one."
+              "text": "No. There’s no account, no telemetry and no AI service. It goes online only for currency rates, app descriptions (which you can turn off), and a stock price or the weather when you ask for one."
             }
           },
           {
@@ -181,7 +181,7 @@
     <div class="container">
       <p class="eyebrow">Free and open source · Mac launcher</p>
       <h1>A warmer light<br> than <span class="copper">Spotlight</span>.</h1>
-      <p class="lead">Copperlight takes Spotlight’s place on your Mac: open apps, find files, do math, paste from your clipboard history and move windows. One hotkey, and everything is a few keystrokes away.</p>
+      <p class="lead">Copperlight takes Spotlight’s place on your Mac: open apps, find files, do math, paste from your clipboard history and move windows. One hotkey, <span class="keys"><kbd>⌥</kbd><kbd>Space</kbd></span>, and everything is a few keystrokes away.</p>
       <div class="actions">
         <a class="btn btn--primary" href="https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>
@@ -191,94 +191,74 @@
       </div>
       <p class="meta">macOS 15 or later · Apple silicon and Intel · <a href="#download">The first launch takes one extra click</a></p>
 
-      <div class="launcher" role="img" aria-label="The Copperlight launcher converting 29.99 euros to US dollars: $34.79">
-        <div class="bar"><span class="bar__text" data-hero-text>29.99 eur in usd</span><span class="caret"></span></div>
-        <div class="results" data-hero-results>
-          <div class="row is-selected"><span class="row__icon" aria-hidden="true">$</span> <span class="row__text"><span class="row__title">$34.79</span> <span class="row__subtitle">29.99 Euros in US Dollars</span></span> <span class="row__action">↵ Copy</span></div>
-          <div class="row"><span class="row__icon" aria-hidden="true"><svg aria-hidden="true"><use href="#i-google"/></svg></span> <span class="row__text"><span class="row__title">Search Google for “29.99 eur in usd”</span> <span class="row__subtitle">Google</span></span> <span class="row__action">↵ Search</span></div>
+      <div class="demo" data-demo>
+        <div class="chips" data-demo-chips role="group" aria-label="Examples">
+          <button type="button" class="chip" data-query="weather lisbon">weather lisbon</button>
+          <button type="button" class="chip" data-query="saf">saf</button>
+          <button type="button" class="chip" data-query="25 usd to eur">25 usd to eur</button>
+          <button type="button" class="chip" data-query="stock aapl">stock aapl</button>
+          <button type="button" class="chip" data-query="translate bom dia">translate bom dia</button>
+          <button type="button" class="chip" data-query="contact ana">contact ana</button>
+          <button type="button" class="chip" data-query="150 + 20%">150 + 20%</button>
+          <button type="button" class="chip" data-query="define serendipity">define serendipity</button>
+          <button type="button" class="chip" data-query="clip">clip</button>
+          <button type="button" class="chip" data-query="speed">speed</button>
+          <button type="button" class="chip" data-query="#c87533">#c87533</button>
+          <button type="button" class="chip" data-query=":layout work">:layout work</button>
+          <button type="button" class="chip" data-query="qr https://copperlight.app">qr</button>
+          <button type="button" class="chip" data-query="">⌥ Space</button>
         </div>
-      </div>
-      <p class="hint"><span class="keys"><kbd>⌥</kbd><kbd>Space</kbd></span> from anywhere</p>
-    </div>
-  </section>
-
-  <section class="section answers" id="answers" aria-labelledby="answers-title">
-    <div class="container reveal">
-      <h2 id="answers-title">Answers in their own shape.</h2>
-      <p class="section-lead">Most results are rows. An answer that reads better big takes the whole card, laid out for what it is.</p>
-      <div class="launcher answers__stage" data-answers>
-        <div class="bar" aria-hidden="true"><span class="bar__mode" data-answers-mode hidden></span><span class="bar__text" data-answers-text></span><span class="caret"></span></div>
-        <ol class="answers__cards" data-answers-cards>
-          <li class="answers__card" data-answer="stock aapl" data-text="aapl" data-mode="Stock">
-            <img src="media/answer-stocks-1364.webp" srcset="media/answer-stocks-682.webp 682w, media/answer-stocks-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="654" loading="lazy" decoding="async" alt="Apple at $347.10, up 0.93% today, the week&rsquo;s chart across the card with yesterday&rsquo;s close dashed, the previous close and 7-day change under it">
-            <p><span class="mono">stock aapl</span> The price, today&rsquo;s change and the week, across the whole card.</p>
-          </li>
-          <li class="answers__card" data-answer="150 + 20%">
-            <img src="media/answer-calc-1364.webp" srcset="media/answer-calc-682.webp 682w, media/answer-calc-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="382" loading="lazy" decoding="async" alt="150 + 20% = 180 on a band, with &ldquo;20% of 150 is 30&rdquo; at its end, and Copy 180 under it">
-            <p><span class="mono">150 + 20%</span> What you typed equals the answer, and what the percentage hid.</p>
-          </li>
-          <li class="answers__card" data-answer="define serendipity" data-text="serendipity" data-mode="Define">
-            <img src="media/answer-define-1364.webp" srcset="media/answer-define-682.webp 682w, media/answer-define-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="510" loading="lazy" decoding="async" alt="serendipity in a serif with its pronunciation, a noun: the occurrence and development of events by chance in a happy or beneficial way, an example and where the word comes from">
-            <p><span class="mono">define serendipity</span> The Mac&rsquo;s dictionary, set like a dictionary.</p>
-          </li>
-          <li class="answers__card" data-answer="25 usd to eur">
-            <img src="media/answer-currency-1364.webp" srcset="media/answer-currency-682.webp 682w, media/answer-currency-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="546" loading="lazy" decoding="async" alt="$25.00 to &euro;21.48 big and centered, the live rate under it, the US and EU flags faint at each end, then Copy &euro;21.48 and the number alone">
-            <p><span class="mono">25 usd to eur</span> What you had and what it makes, between both flags.</p>
-          </li>
-          <li class="answers__card" data-answer="contact ana" data-text="ana" data-mode="Contact">
-            <img src="media/answer-contact-1364.webp" srcset="media/answer-contact-682.webp 682w, media/answer-contact-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="794" loading="lazy" decoding="async" alt="Ana Ribeiro&rsquo;s card with her initials, job and company, number, email and birthday, and Message, Call, FaceTime, WhatsApp, Email, Copy and Open in Contacts beside it">
-            <p><span class="mono">contact ana</span> Their card, and every way to reach them beside it.</p>
-          </li>
-          <li class="answers__card" data-answer="speed">
-            <img src="media/answer-speed-1364.webp" srcset="media/answer-speed-682.webp 682w, media/answer-speed-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="540" loading="lazy" decoding="async" alt="The internet speed test on Wi-Fi: 328 Mbps download and 253 Mbps upload in two big tiles, 50 ms latency and 308 ms under load">
-            <p><span class="mono">speed</span> Download and upload big, the latency under them.</p>
-          </li>
-          <li class="answers__card" data-answer="#c87533">
-            <img src="media/answer-colors-1364.webp" srcset="media/answer-colors-682.webp 682w, media/answer-colors-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="770" loading="lazy" decoding="async" alt="#c87533 on a band with its contrast on white and black and four shades, then its RGB, HSL and hex rows and a step lighter and darker">
-            <p><span class="mono">#c87533</span> A color on a band, with how it reads on white and black.</p>
-          </li>
-          <li class="answers__card" data-answer="" data-label="⌥ Space">
-            <img src="media/answer-meeting-1364.webp" srcset="media/answer-meeting-682.webp 682w, media/answer-meeting-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="752" loading="lazy" decoding="async" alt="The empty launcher: Design review in 6 minutes on a band, its time and Google Meet, who&rsquo;s coming and a line of its notes, then Join Google Meet, Open in Calendar, a timer and an overdue reminder">
-            <p><span class="mono">⌥ Space</span> The meeting about to start, before you type a thing.</p>
-          </li>
-          <li class="answers__card" data-answer="qr https://copperlight.app" data-text="https://copperlight.app" data-mode="QR Code" data-label="qr">
-            <img src="media/answer-qr-1364.webp" srcset="media/answer-qr-682.webp 682w, media/answer-qr-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="522" loading="lazy" decoding="async" alt="A QR code for https://copperlight.app big on the left, and Copy Picture, Save to Downloads and Copy Link beside it">
-            <p><span class="mono">qr</span> A QR code of a link or what you copied, with what you can do with it beside it.</p>
-          </li>
-        </ol>
-        <div class="answers__chips" data-answers-chips aria-label="Show an answer"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section try" id="try" aria-labelledby="try-title">
-    <div class="container reveal">
-      <h2 id="try-title">Go on, type something.</h2>
-      <p class="section-lead">This is Copperlight, right here in the page. Type, or pick one of these.</p>
-      <div class="chips" data-demo-chips>
-        <button type="button" class="chip" data-query="saf">saf</button>
-        <button type="button" class="chip" data-query="29.99 eur in usd">29.99 eur in usd</button>
-        <button type="button" class="chip" data-query="translate bom dia">translate bom dia</button>
-        <button type="button" class="chip" data-query="clip">clip</button>
-        <button type="button" class="chip" data-query=":left">:left</button>
-        <button type="button" class="chip" data-query=":export pdf">:export pdf</button>
-        <button type="button" class="chip" data-query="meetings">meetings</button>
-        <button type="button" class="chip" data-query="ana">ana</button>
-        <button type="button" class="chip" data-query="days until christmas">days until christmas</button>
-        <button type="button" class="chip" data-query="bluetooth">bluetooth</button>
-        <button type="button" class="chip" data-query=":connect airpods">:connect airpods</button>
-        <button type="button" class="chip" data-query="battery">battery</button>
-        <button type="button" class="chip" data-query=":layout work">:layout work</button>
-        <button type="button" class="chip" data-query="define serendipity">define serendipity</button>
-      </div>
-      <div class="launcher demo">
-        <label class="bar bar--input">
-          <span class="bar__mode" data-demo-mode hidden></span>
-          <input data-demo-input type="text" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-label="Try Copperlight: type a query" aria-controls="demo-results" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type anything">
-        </label>
-        <div class="results" id="demo-results" data-demo-results role="listbox" aria-label="Results"></div>
-        <p class="toast" data-demo-toast aria-hidden="true"></p>
-        <p class="visually-hidden" data-demo-status aria-live="polite"></p>
+        <div class="launcher">
+          <label class="bar bar--input">
+            <span class="bar__mode" data-demo-mode hidden></span>
+            <input data-demo-input type="text" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-label="Try Copperlight: type a query" aria-controls="demo-results" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type anything" value="weather lisbon">
+          </label>
+          <div class="results" id="demo-results" data-demo-results role="listbox" aria-label="Results"></div>
+          <ol class="answers__cards" data-answers-cards>
+            <li class="answers__card" data-answer="weather lisbon">
+              <img src="media/answer-weather-1364.webp" srcset="media/answer-weather-682.webp 682w, media/answer-weather-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="642" decoding="async" alt="Lisbon now: 22&deg; and partly cloudy, high 26&deg; and low 12&deg;, the next five days with their lows and highs on one scale, and the next seven hours with their temperatures">
+              <p><span class="mono">weather</span> Now, the next hours and five days, where you are or in any city.</p>
+            </li>
+            <li class="answers__card" data-answer="25 usd to eur">
+              <img src="media/answer-currency-1364.webp" srcset="media/answer-currency-682.webp 682w, media/answer-currency-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="546" loading="lazy" decoding="async" alt="$25.00 to &euro;21.48 big and centered, the live rate under it, the US and EU flags faint at each end, then Copy &euro;21.48 and the number alone">
+              <p><span class="mono">25 usd to eur</span> What you had and what it makes, between both flags.</p>
+            </li>
+            <li class="answers__card" data-answer="stock aapl">
+              <img src="media/answer-stocks-1364.webp" srcset="media/answer-stocks-682.webp 682w, media/answer-stocks-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="654" loading="lazy" decoding="async" alt="Apple at $347.10, up 0.93% today, the week&rsquo;s chart across the card with yesterday&rsquo;s close dashed, the previous close and 7-day change under it">
+              <p><span class="mono">stock aapl</span> The price, today&rsquo;s change and the week, across the whole card.</p>
+            </li>
+            <li class="answers__card" data-answer="contact ana">
+              <img src="media/answer-contact-1364.webp" srcset="media/answer-contact-682.webp 682w, media/answer-contact-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="794" loading="lazy" decoding="async" alt="Ana Ribeiro&rsquo;s card with her initials, job and company, number, email and birthday, and Message, Call, FaceTime, WhatsApp, Email, Copy and Open in Contacts beside it">
+              <p><span class="mono">contact ana</span> Their card, and every way to reach them beside it.</p>
+            </li>
+            <li class="answers__card" data-answer="150 + 20%">
+              <img src="media/answer-calc-1364.webp" srcset="media/answer-calc-682.webp 682w, media/answer-calc-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="382" loading="lazy" decoding="async" alt="150 + 20% = 180 on a band, with &ldquo;20% of 150 is 30&rdquo; at its end, and Copy 180 under it">
+              <p><span class="mono">150 + 20%</span> What you typed equals the answer, and what the percentage hid.</p>
+            </li>
+            <li class="answers__card" data-answer="define serendipity">
+              <img src="media/answer-define-1364.webp" srcset="media/answer-define-682.webp 682w, media/answer-define-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="510" loading="lazy" decoding="async" alt="serendipity in a serif with its pronunciation, a noun: the occurrence and development of events by chance in a happy or beneficial way, an example and where the word comes from">
+              <p><span class="mono">define serendipity</span> The Mac&rsquo;s dictionary, set like a dictionary.</p>
+            </li>
+            <li class="answers__card" data-answer="speed">
+              <img src="media/answer-speed-1364.webp" srcset="media/answer-speed-682.webp 682w, media/answer-speed-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="540" loading="lazy" decoding="async" alt="The internet speed test on Wi-Fi: 328 Mbps download and 253 Mbps upload in two big tiles, 50 ms latency and 308 ms under load">
+              <p><span class="mono">speed</span> Download and upload big, the latency under them.</p>
+            </li>
+            <li class="answers__card" data-answer="#c87533">
+              <img src="media/answer-colors-1364.webp" srcset="media/answer-colors-682.webp 682w, media/answer-colors-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="770" loading="lazy" decoding="async" alt="#c87533 on a band with its contrast on white and black and four shades, then its RGB, HSL and hex rows and a step lighter and darker">
+              <p><span class="mono">#c87533</span> A color on a band, with how it reads on white and black.</p>
+            </li>
+            <li class="answers__card" data-answer="qr https://copperlight.app">
+              <img src="media/answer-qr-1364.webp" srcset="media/answer-qr-682.webp 682w, media/answer-qr-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="522" loading="lazy" decoding="async" alt="A QR code for https://copperlight.app big on the left, and Copy Picture, Save to Downloads and Copy Link beside it">
+              <p><span class="mono">qr</span> A QR code of a link or what you copied, with what you can do with it beside it.</p>
+            </li>
+            <li class="answers__card" data-answer="">
+              <img src="media/answer-meeting-1364.webp" srcset="media/answer-meeting-682.webp 682w, media/answer-meeting-1364.webp 1364w" sizes="(max-width: 722px) calc(100vw - 40px), 682px" width="1364" height="752" loading="lazy" decoding="async" alt="The empty launcher: Design review in 6 minutes on a band, its time and Google Meet, who&rsquo;s coming and a line of its notes, then Join Google Meet, Open in Calendar, a timer and an overdue reminder">
+              <p><span class="mono">⌥ Space</span> The meeting about to start, before you type a thing.</p>
+            </li>
+          </ol>
+          <p class="toast" data-demo-toast aria-hidden="true"></p>
+          <p class="visually-hidden" data-demo-status aria-live="polite"></p>
+        </div>
       </div>
     </div>
   </section>
@@ -290,7 +270,7 @@
         <div class="chapter__text">
           <p class="kicker">Find</p>
           <h2>Everything, from one field.</h2>
-          <p>Apps, files and folders, people from your contacts, your browser's open tabs, bookmarks and history, System Settings pages, math, currency, units, time zones, dates, colors, translations, stock prices, and your Mac’s own numbers: what&rsquo;s using the processor, battery, disk space, IP, open ports. No menus to dig through: start typing, press Enter. It learns from what you pick, so <span class="mono">ss</span> becomes Slack with no setup, and an app you don&rsquo;t have installs from its row, with Homebrew. Select text anywhere first and it’s already typed; <span class="keys"><kbd>↑</kbd></span> brings back what you ran.</p>
+          <p>Apps, files and folders, people from your contacts, your browser's open tabs, bookmarks and history, System Settings pages, math, currency, units, time zones, dates, colors, translations, stock prices, the weather, and your Mac’s own numbers: what&rsquo;s using the processor, battery, disk space, IP, open ports. No menus to dig through: start typing, press Enter. It learns from what you pick, so <span class="mono">ss</span> becomes Slack with no setup, and an app you don&rsquo;t have installs from its row, with Homebrew. Select text anywhere first and it’s already typed; <span class="keys"><kbd>↑</kbd></span> brings back what you ran.</p>
         </div>
         <div class="chapter__visual stack" aria-hidden="true">
           <div class="mini"><div class="mini__bar">saf</div><div class="row is-selected"><span class="row__icon" aria-hidden="true">S</span> <span class="row__text"><span class="row__title">Safari</span> <span class="row__subtitle">Application</span></span> <span class="row__action">↵ Open</span></div></div>
@@ -318,6 +298,18 @@
 
       <article class="chapter reveal">
         <div class="chapter__text">
+          <p class="kicker">Answers</p>
+          <h2>Answers in their own shape.</h2>
+          <p>Most results are rows. An answer that reads better big takes the whole card, laid out for what it is: a stock&rsquo;s week across the card, a city&rsquo;s next hours and five days, a person with every way to reach them beside, what your money makes between both flags, the meeting about to start before you type a thing.</p>
+          <p class="commands"><span class="mono">weather</span><span class="mono">stock aapl</span><span class="mono">contact ana</span><span class="mono">25 usd to eur</span></p>
+        </div>
+        <div class="chapter__visual" aria-hidden="true">
+          <img class="chapter__card" src="media/answer-stocks-682.webp" srcset="media/answer-stocks-682.webp 682w, media/answer-stocks-1364.webp 1364w" sizes="(max-width: 900px) calc(100vw - 40px), 600px" width="1364" height="654" loading="lazy" decoding="async" alt="">
+        </div>
+      </article>
+
+      <article class="chapter chapter--flip reveal">
+        <div class="chapter__text">
           <p class="kicker">Clipboard</p>
           <h2>Your clipboard, remembered.</h2>
           <p>Everything you copy, searchable, and pasted straight into the app you were in. Snippets fill themselves in: type <span class="mono">reply Ana</span> and the name lands in the right place.</p>
@@ -335,7 +327,7 @@
         </div>
       </article>
 
-      <article class="chapter chapter--flip reveal">
+      <article class="chapter reveal">
         <div class="chapter__text">
           <p class="kicker">Windows and menus</p>
           <h2>Windows and menus, without the mouse.</h2>
@@ -352,7 +344,7 @@
         </div>
       </article>
 
-      <article class="chapter reveal">
+      <article class="chapter chapter--flip reveal">
         <div class="chapter__text">
           <p class="kicker">Your day</p>
           <h2>Your day, a keystroke away.</h2>
@@ -371,7 +363,7 @@
         </div>
       </article>
 
-      <article class="chapter chapter--flip reveal">
+      <article class="chapter reveal">
         <div class="chapter__text">
           <p class="kicker">Yours</p>
           <h2>Make it yours.</h2>
@@ -475,6 +467,11 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
           <dd>The price and the last seven days, only when you ask.</dd>
         </div>
         <div class="tool">
+          <dt>Weather</dt>
+          <dd class="mono">weather</dd>
+          <dd>Now, the next hours and five days, where you are or in any city, only when you ask.</dd>
+        </div>
+        <div class="tool">
           <dt>Music and sound</dt>
           <dd class="mono">:play</dd>
           <dd>Play, pause and skip, mute, or switch to your headphones.</dd>
@@ -508,6 +505,11 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
           <dt>Mac commands</dt>
           <dd class="mono">:quit all</dd>
           <dd>Quit or hide every app, show the desktop, mute the mic, or log out.</dd>
+        </div>
+        <div class="tool">
+          <dt>Menu search</dt>
+          <dd class="mono">:export pdf</dd>
+          <dd>Any menu item of the app in front, found by its name.</dd>
         </div>
         <div class="tool">
           <dt>File actions</dt>
@@ -594,7 +596,7 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
         </details>
         <details class="faq__item">
           <summary>Does Copperlight send my data anywhere?</summary>
-          <p>No. There’s no account, no telemetry and no AI service. It goes online only for currency rates, app descriptions (which you can turn off) and a stock price when you ask for one.</p>
+          <p>No. There’s no account, no telemetry and no AI service. It goes online only for currency rates, app descriptions (which you can turn off), and a stock price or the weather when you ask for one.</p>
         </details>
         <details class="faq__item">
           <summary>Can I add my own commands?</summary>

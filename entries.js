@@ -12,6 +12,9 @@ export const modes = [
   { prefix: ":quit ", title: "Quit Application", hint: "" },
   { prefix: "timer ", title: "Timer", hint: "10 min tea, 90s, 1h 30m" },
   { prefix: "qr ", title: "QR Code", hint: "Text or a link, or nothing for what's copied" },
+  { prefix: "stock ", title: "Stock", hint: "A ticker: AAPL, MGLU3.SA" },
+  { prefix: "contact ", title: "Contact", hint: "A name, or nothing for everyone" },
+  { prefix: "weather ", title: "Weather", hint: "A city, or nothing for where you are" },
   { prefix: "port ", title: "Port", hint: "A port number, like 3000" },
   { prefix: ":layout ", title: "Layout", hint: "" },
   { prefix: ":connect ", title: "Connect Bluetooth Device", hint: "" },
@@ -276,5 +279,18 @@ export const entries = [
   {
     keys: [":!git status"],
     rows: [{ icon: "i-terminal", title: "git status", subtitle: "On branch main, nothing to commit", action: "Run", toast: "Runs git status in your shell" }],
+  },
+  // In their chips, these answer with a card of their own (index.html); the row is what shows on the way there.
+  {
+    keys: ["stock aapl"],
+    rows: [{ icon: "$", title: "AAPL $347.10", subtitle: "Apple · up 0.93% today", action: "Open", toast: "Opens Apple on Yahoo Finance" }],
+  },
+  {
+    keys: ["contact ana", "contact ana ribeiro"],
+    rows: [{ icon: "A", title: "Ana Ribeiro", subtitle: "Product Designer · Northwind", action: "Open", toast: "Opens Ana Ribeiro in Contacts" }],
+  },
+  {
+    keys: ["weather lisbon"],
+    rows: [{ icon: "i-sun", title: "22° · Partly cloudy", subtitle: "Lisbon · H 26° L 12°", action: "Open", toast: "Opens Weather" }],
   },
 ];

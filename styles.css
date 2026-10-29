@@ -157,8 +157,6 @@ main { overflow-x: clip; }
 .meta { margin-top: 16px; font-size: 13px; color: var(--text-2); }
 .meta a { color: var(--text); text-decoration: underline; text-decoration-color: rgba(232, 140, 74, 0.6); text-underline-offset: 3px; }
 .meta a:hover { text-decoration-color: var(--copper-light); }
-.hero .launcher { margin: clamp(56px, 8vw, 84px) auto 0; }
-.hint { margin-top: 22px; display: flex; justify-content: center; align-items: center; gap: 6px; font-size: 13px; color: var(--text-2); }
 
 /* Keycaps; a combination is one unit that never breaks across lines */
 .keys { display: inline-flex; gap: 3px; white-space: nowrap; vertical-align: -1px; }
@@ -251,10 +249,11 @@ kbd {
 /* Section headings */
 .section h2 { font-size: clamp(2.15rem, 4.8vw, 3.6rem); line-height: 1.03; letter-spacing: -0.042em; }
 .section-lead { margin: 20px auto 0; max-width: 34em; font-size: clamp(16.5px, 1.5vw, 18.5px); line-height: 1.55; color: var(--text-2); }
-.try, .principles, .download { text-align: center; }
+.principles, .download { text-align: center; }
 
-/* Try it: the launcher, live */
-.try .demo { margin: 30px auto 0; position: relative; }
+/* The hero's launcher, live: the examples over it, then rows, or an answer's own card (the app's, rendered). */
+.demo { position: relative; width: min(682px, 100%); margin: clamp(48px, 7vw, 72px) auto 0; }
+.demo .launcher { width: 100%; }
 .bar--input { cursor: text; }
 .bar--input input {
   flex: 1; min-width: 0; height: 100%;
@@ -290,7 +289,7 @@ kbd {
 }
 .toast.is-shown { opacity: 1; transform: translate(-50%, 0); }
 .toast::before { content: "✓"; margin-right: 8px; color: var(--copper-light); font-family: system-ui, sans-serif; }
-.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 40px auto 0; max-width: 640px; }
+.chips { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 auto 26px; }
 .chip {
   font: 400 13.5px/1 var(--mono); letter-spacing: -0.01em;
   padding: 9px 13px; border-radius: 10px; cursor: pointer;
@@ -371,31 +370,45 @@ kbd {
 .t-s { color: #D9C2A3; }
 .t-c { color: var(--text-2); }
 
-/* Answers in their own shape: a list of real cards until demo.js makes it live. Then one launcher types each answer's
-   query, its card cross-fading in below while the height eases from one shape to the next. */
-.answers { text-align: center; }
-.answers__stage { width: min(682px, 100%); margin: 52px auto 0; }
-.answers__stage:not(.is-live) .bar, .answers__stage:not(.is-live) .answers__chips { display: none; }
-.answers__cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 40px; }
+/* Answers in their own shape: under the field, the card of an answer that has one. Without demo.js, the first shows.
+   With it, the card for what's typed cross-fades in while the height eases from one shape to the next, and to nothing
+   for rows. */
+.answers__cards { list-style: none; margin: 0; padding: 0; }
+.answers__card { padding-top: 12px; }
 .answers__card img { display: block; width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55)); }
 .answers__card p { margin: 16px 0 0; font-size: 15px; line-height: 1.5; color: var(--text-2); text-align: center; }
 .answers__card .mono { margin-right: 8px; font-size: 12.5px; padding: 3px 8px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); color: #D8CEC4; white-space: nowrap; }
-.answers__stage.is-live .answers__cards { display: block; position: relative; margin-top: 12px; transition: height 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); }
-.answers__stage.is-live .answers__card {
+.demo:not(.is-live) .answers__card:not(:first-child) { display: none; }
+.demo.is-live .answers__cards { position: relative; transition: height 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.22s ease; }
+.demo.is-live .answers__card {
   position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(10px) scale(0.985); pointer-events: none;
   transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.answers__stage.is-live .answers__card.is-current { opacity: 1; transform: none; pointer-events: auto; transition-delay: 0.12s; }
-.answers__stage .bar__text--placeholder { order: 1; }
-.answers__chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 28px auto 0; }
-.answers__chips .chip { position: relative; overflow: hidden; }
-/* While it tours, the answer showing fills its chip from the left; it waits, filling, when the tour does. */
-.answers__chips .chip::after {
+.demo.is-live .answers__card.is-current { opacity: 1; transform: none; pointer-events: auto; transition-delay: 0.12s; }
+/* As it types, what showed fades, and what the query brings fades in once it's typed. */
+.demo .results { transition: opacity 0.22s ease; }
+.demo.is-quiet .results, .demo.is-quiet .answers__cards { opacity: 0; }
+.demo .chip { position: relative; overflow: hidden; }
+/* While it tours, the example showing fills its chip from the left; it waits, filling, when the tour does. */
+.demo .chip::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
   background: var(--copper-light); transform: scaleX(0); transform-origin: left;
 }
-.answers__stage.is-touring .chip.is-current::after { animation: answer-hold var(--hold) linear forwards; }
-.answers__stage.is-paused .chip.is-current::after { animation-play-state: paused; }
+.demo.is-touring .chip.is-current::after { animation: answer-hold var(--hold) linear forwards; }
+.demo.is-paused .chip.is-current::after { animation-play-state: paused; }
+/* On a phone, the examples are one row that scrolls sideways, edge to edge, so the launcher stays near the top. */
+@media (max-width: 640px) {
+  .demo .chips {
+    flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+  }
+  .demo .chips::-webkit-scrollbar { display: none; }
+  .demo .chip { flex: none; }
+}
+/* The answers chapter's picture: a card on its own, no field over it. */
+.chapter__card { display: block; width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55)); }
 @keyframes answer-hold { to { transform: scaleX(1); } }
 
 /* The built-in tools: a quiet two-column list, name and what to type, then what it does */
@@ -475,11 +488,6 @@ kbd {
   .desk__launcher { width: 64%; right: 4%; }
 }
 
-/* The hero's results swap as it types; the launcher keeps room for two rows, so nothing below moves. */
-.hero .launcher { min-height: 206px; }
-.results { transition: opacity 0.22s ease; }
-.results.is-quiet { opacity: 0; }
-@media (max-width: 520px) { .hero .launcher { min-height: 190px; } }
 
 /* Questions: the homepage's, and each comparison page's */
 .faq { text-align: center; }

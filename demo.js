@@ -1,9 +1,7 @@
-// The page's moving parts: the live launcher in "Try it", the hero typing queries, the answers taking their shapes,
-// and sections fading in.
+// The page's moving parts: the hero's live launcher, which tours its examples until you type, and sections fading in.
 import { match, modeOf } from "./match.js";
 import { modes } from "./entries.js";
 
-const HERO_QUERIES = ["29.99 eur in usd", "3pm lisbon in sf", "saf", "20% of 150", "10 km in mi"];
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const finePointer = matchMedia("(pointer: fine)");
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -56,15 +54,27 @@ export function renderRows(container, rows, selected, idPrefix) {
   }));
 }
 
+// The hero's launcher, live: type, or pick an example. Most queries answer in rows; one that reads better big shows its
+// card instead (the app's own, rendered), as answers do in the app. Until you type or pick, it tours the examples once,
+// typing each as the app would (a name that takes text becoming its chip, as Tab makes it), then the first stays:
+// moving content shouldn't go on forever. It waits while off screen or under the pointer. Under reduced motion
+// nothing types or tours, and the examples still show each one.
+const ANSWER_HOLD = 3600;
 export function initDemo(root) {
   const input = root.querySelector("[data-demo-input]");
   const modeChip = root.querySelector("[data-demo-mode]");
   const placeholder = input.placeholder;
   const results = root.querySelector("[data-demo-results]");
+  const stack = root.querySelector("[data-answers-cards]");
   const status = root.querySelector("[data-demo-status]");
   const toast = root.querySelector("[data-demo-toast]");
   const chips = [...root.querySelectorAll("[data-query]")];
-  let rows = [], selected = 0, toastTimer, inView = false, mode = null;
+  const cards = [...root.querySelectorAll("[data-answer]")];
+  let rows = [], selected = 0, toastTimer, inView = false, mode = null, card = null;
+  let touring = !reducedMotion.matches, taken = false, held = false, run = 0;
+  root.style.setProperty("--hold", `${ANSWER_HOLD}ms`);
+  root.classList.add("is-live");
+  root.classList.toggle("is-touring", touring);
 
   // What's typed, the chip's name included: "translate bom dia".
   const query = () => (mode ? mode.prefix : "") + input.value;
@@ -77,6 +87,9 @@ export function initDemo(root) {
     modeChip.hidden = !mode;
     input.placeholder = mode ? mode.hint : placeholder;
   };
+  // The card for what's typed, if it has one: the same words, in the chip its answer needs ("stock aapl" typed without
+  // Tab is the start of a file's name, and gets rows). Nothing typed shows the next meeting, as the app opens.
+  const cardFor = (typed) => cards.find((c) => c.dataset.answer === typed.trim().toLowerCase() && modeOf(c.dataset.answer) === mode) ?? null;
 
   // What a screen reader hears for a row: "Safari, Application, Open".
   const describe = (row) => `${row.title}, ${row.subtitle}, ${row.action}`;
@@ -86,12 +99,29 @@ export function initDemo(root) {
     if (rows.length) input.setAttribute("aria-activedescendant", `demo-option-${selected}`);
     else input.removeAttribute("aria-activedescendant");
   };
+  const fit = () => { stack.style.height = card ? `${card.offsetHeight}px` : "0px"; };
   const show = () => {
-    rows = match(query(), undefined, Boolean(mode)) ?? [];
+    card = cardFor(query());
+    rows = card ? [] : match(query(), undefined, Boolean(mode)) ?? [];
     selected = 0;
     render();
-    status.textContent = rows.length ? `${describe(rows[0])}. ${rows.length} results.` : "";
-    for (const button of chips) button.classList.toggle("is-current", button.dataset.query === query());
+    cards.forEach((c) => {
+      c.classList.toggle("is-current", c === card);
+      c.setAttribute("aria-hidden", String(c !== card));
+    });
+    fit();
+    root.classList.remove("is-quiet");
+    status.textContent = card ? card.querySelector("img").alt : rows.length ? `${describe(rows[0])}. ${rows.length} results.` : "";
+    for (const button of chips) {
+      const current = button.dataset.query === query();
+      button.classList.toggle("is-current", current);
+      button.setAttribute("aria-current", String(current));
+      // In a row that scrolls sideways (a phone's), the example showing comes into view, without moving the page.
+      const strip = button.parentElement;
+      if (current && strip.scrollWidth > strip.clientWidth) {
+        strip.scrollTo({ left: button.offsetLeft - (strip.clientWidth - button.offsetWidth) / 2, behavior: reducedMotion.matches ? "auto" : "smooth" });
+      }
+    }
   };
   const select = (index) => {
     selected = (index + rows.length) % rows.length;
@@ -99,7 +129,7 @@ export function initDemo(root) {
     status.textContent = describe(rows[selected]);
   };
   // Enter: say what the app would do.
-  const run = () => {
+  const perform = () => {
     if (!rows.length) return;
     toast.textContent = rows[selected].toast;
     status.textContent = rows[selected].toast;
@@ -107,15 +137,28 @@ export function initDemo(root) {
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toast.classList.remove("is-shown"), 1800);
   };
+  const stop = () => {
+    touring = false;
+    run++; // ends the typing under way
+    root.classList.remove("is-touring");
+  };
 
   input.addEventListener("input", show);
+  // The first time it's yours, the field empties for you to type, the tour's query gone.
+  input.addEventListener("focus", () => {
+    stop();
+    if (taken) return;
+    taken = true;
+    setMode("");
+    show();
+  });
   input.addEventListener("keydown", (event) => {
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       if (rows.length) select(selected + (event.key === "ArrowDown" ? 1 : -1));
     } else if (event.key === "Enter") {
       event.preventDefault();
-      run();
+      perform();
     } else if (event.key === "Tab" && !mode) {
       // The name typed (with or without its space) becomes the chip. Nothing to make one of: Tab moves on as usual.
       const lower = query().toLowerCase();
@@ -138,10 +181,12 @@ export function initDemo(root) {
     const row = event.target.closest(".row");
     if (!row) return;
     select([...results.children].indexOf(row));
-    run();
+    perform();
   });
   for (const button of chips) {
     button.addEventListener("click", () => {
+      stop();
+      taken = true;
       setMode(button.dataset.query);
       show();
       // With a mouse, typing can carry on from here; on a phone, focusing would pop up the keyboard.
@@ -149,140 +194,58 @@ export function initDemo(root) {
     });
   }
 
+  // Types `text` as someone would: what's there goes first (a chip in one backspace), then each letter. False if it
+  // was stopped on the way.
+  async function type(text) {
+    const mine = ++run;
+    root.classList.add("is-quiet");
+    while (query()) {
+      if (mode && !input.value) setMode("");
+      else input.value = input.value.slice(0, -1);
+      await wait(24);
+      if (mine !== run) return false;
+    }
+    await wait(260);
+    for (let end = 1; end <= text.length; end++) {
+      setMode(text.slice(0, end));
+      await wait(48 + Math.random() * 46);
+      if (mine !== run) return false;
+    }
+    await wait(160);
+    if (mine !== run) return false;
+    show();
+    return true;
+  }
+  // Waits ANSWER_HOLD, counting only while it's on screen and not under the pointer.
+  async function hold() {
+    for (let left = ANSWER_HOLD; left > 0; ) {
+      await wait(100);
+      if (inView && !held) left -= 100;
+    }
+  }
+  const pause = () => root.classList.toggle("is-paused", !inView || held);
+
   // While the demo is on screen and nothing else has focus, typing a letter types it here. The field never takes focus
   // on its own, so scrolling with the keyboard (Space, arrows) keeps working.
-  new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; }, { threshold: 0.4 }).observe(root);
+  new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; pause(); }, { threshold: 0.4 }).observe(root);
   document.addEventListener("keydown", (event) => {
     if (!inView || document.activeElement !== document.body) return;
     if (event.metaKey || event.ctrlKey || event.altKey || event.key.length !== 1 || event.key === " ") return;
     input.focus({ preventScroll: true });
   });
-}
-
-// The hero's launcher types each query once, as the app would answer them, then comes back to the first and stays:
-// moving content shouldn't go on forever. It waits while the hero is off screen. The first query is in the HTML, so
-// nothing moves under reduced motion.
-export function initHeroLoop(textEl, resultsEl, queries) {
-  if (reducedMotion.matches) return;
-  let onScreen = true;
-  new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; }).observe(textEl);
-  (async () => {
-    for (const query of [...queries.slice(1), queries[0]]) {
-      await wait(2800);
-      while (!onScreen) await wait(400);
-      resultsEl.classList.add("is-quiet");
-      while (textEl.textContent) {
-        textEl.textContent = textEl.textContent.slice(0, -1);
-        await wait(24);
-      }
-      await wait(260);
-      for (const char of query) {
-        textEl.textContent += char;
-        await wait(48 + Math.random() * 46);
-      }
-      await wait(160);
-      renderRows(resultsEl, match(query), 0);
-      resultsEl.classList.remove("is-quiet");
-    }
-  })();
-}
-
-// Answers in their own shape: the launcher types each answer's query (a name that takes text becoming its chip, as in
-// the app), and its card takes its shape below. It tours them once, then the first stays: moving content shouldn't go
-// on forever. It waits while off screen or under the pointer; a chip shows its answer at once and ends the tour. Under
-// reduced motion nothing types or tours, and the chips still show each one.
-const ANSWER_HOLD = 3600;
-export function initAnswers(stage) {
-  const cards = [...stage.querySelectorAll("[data-answer]")];
-  const stack = stage.querySelector("[data-answers-cards]");
-  const text = stage.querySelector("[data-answers-text]");
-  const mode = stage.querySelector("[data-answers-mode]");
-  let current = 0, run = 0, touring = !reducedMotion.matches, onScreen = false, held = false;
-  stage.style.setProperty("--hold", `${ANSWER_HOLD}ms`);
-  stage.classList.add("is-live");
-  stage.classList.toggle("is-touring", touring);
-  const chips = cards.map((card, index) => {
-    const chip = document.createElement("button");
-    chip.type = "button";
-    chip.className = "chip";
-    chip.textContent = card.dataset.label ?? card.dataset.answer;
-    chip.addEventListener("click", () => {
-      touring = false;
-      stage.classList.remove("is-touring");
-      show(index, false);
-    });
-    stage.querySelector("[data-answers-chips]").append(chip);
-    return chip;
-  });
-  const chipAt = (card) => (card.dataset.mode ? card.dataset.answer.length - (card.dataset.text ?? "").length : Infinity);
-  const fit = () => { stack.style.height = `${cards[current].offsetHeight}px`; };
-  const pause = () => stage.classList.toggle("is-paused", !onScreen || held);
-
-  // The field as far as `typed`: its chip once the name is typed, what follows it, or the placeholder for nothing.
-  function field(card, typed) {
-    const at = chipAt(card), empty = !card.dataset.answer;
-    mode.hidden = typed.length < at;
-    mode.textContent = card.dataset.mode ?? "";
-    text.classList.toggle("bar__text--placeholder", empty);
-    text.textContent = empty ? "Type anything" : typed.length < at ? typed : typed.slice(at);
-  }
-
-  async function show(index, typing) {
-    const mine = ++run, from = cards[current], to = cards[index];
-    if (typing) {
-      for (let typed = from.dataset.answer; typed; ) {
-        typed = typed.length === chipAt(from) ? "" : typed.slice(0, -1); // a chip goes in one backspace
-        field(from, typed);
-        await wait(24);
-        if (mine !== run) return;
-      }
-      field(to, "");
-      await wait(260);
-      let typed = "";
-      for (const char of to.dataset.answer) {
-        field(to, (typed += char));
-        await wait(48 + Math.random() * 46);
-        if (mine !== run) return;
-      }
-      await wait(160);
-      if (mine !== run) return;
-    } else {
-      field(to, to.dataset.answer);
-    }
-    current = index;
-    cards.forEach((card, i) => {
-      card.classList.toggle("is-current", i === index);
-      card.setAttribute("aria-hidden", String(i !== index));
-    });
-    chips.forEach((chip, i) => {
-      chip.classList.toggle("is-current", i === index);
-      chip.setAttribute("aria-current", String(i === index));
-    });
-    fit();
-  }
-
-  // Waits ANSWER_HOLD, counting only while it's on screen and not under the pointer.
-  async function hold() {
-    for (let left = ANSWER_HOLD; left > 0; ) {
-      await wait(100);
-      if (onScreen && !held) left -= 100;
-    }
-  }
-
-  new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; pause(); }, { threshold: 0.3 }).observe(stage);
-  stage.addEventListener("pointerenter", () => { held = true; pause(); });
-  stage.addEventListener("pointerleave", () => { held = false; pause(); });
+  root.addEventListener("pointerenter", () => { held = true; pause(); });
+  root.addEventListener("pointerleave", () => { held = false; pause(); });
   addEventListener("resize", fit);
-  show(0, false);
+
+  setMode(chips[0].dataset.query);
+  show();
   if (!touring) return;
   (async () => {
-    for (const index of [...cards.keys()].slice(1).concat(0)) {
+    for (const chip of [...chips.slice(1), chips[0]]) {
       await hold();
-      if (!touring) return;
-      await show(index, true);
+      if (!touring || !(await type(chip.dataset.query))) return;
     }
-    touring = false;
-    stage.classList.remove("is-touring");
+    stop();
   })();
 }
 
@@ -300,10 +263,6 @@ export function initReveal() {
   for (const section of document.querySelectorAll(".reveal")) observer.observe(section);
 }
 
-const demo = document.querySelector("#try");
+const demo = document.querySelector("[data-demo]");
 if (demo) initDemo(demo);
-const heroText = document.querySelector("[data-hero-text]");
-if (heroText) initHeroLoop(heroText, document.querySelector("[data-hero-results]"), HERO_QUERIES);
-const answers = document.querySelector("[data-answers]");
-if (answers) initAnswers(answers);
 initReveal();

@@ -21,7 +21,7 @@ spotlight-alternative/, raycast-alternative/, alfred-alternative/
 404.html              what GitHub Pages shows for an address that doesn't exist
 robots.txt, sitemap.xml  for search engines: the sitemap lists every page (tests/seo.test.js checks it)
 styles.css            the look: tokens at the top, then each section
-demo.js               the live launcher in "Try it", the hero typing queries, sections fading in
+demo.js               the hero's live launcher (touring its examples until you type, answers as their cards), sections fading in
 match.js, entries.js  what the demo knows and how it matches what's typed (tested in tests/match.test.js)
 fonts/                Geist and Geist Mono, self-hosted (SIL Open Font License, fonts/OFL.txt)
 mark.svg              the app's mark; favicon-32.png and apple-touch-icon.png come from the app icon
