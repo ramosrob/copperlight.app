@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 const html = read("index.html");
@@ -340,4 +340,22 @@ test("v0.10: learned abbreviations, Tab on a row, speed, keeping awake a while, 
   assert.ok(html.includes('data-query=":connect airpods"'));
   assert.match(match(":awake 2h")[0].subtitle, /^Until \d\d:\d\d$/, "worked out from now, as in the app");
   assert.deepEqual(match("figma")[0].title, "Install Figma");
+});
+
+test("answers in their own shape: real screenshots of the QR code, the stock and the color, light and described", () => {
+  const start = html.indexOf('id="answers"');
+  assert.ok(start > html.indexOf('id="features"') && start < html.indexOf('id="tools"'), "between the chapters and the tools");
+  const section = html.slice(start, html.indexOf("</section>", start));
+  assert.ok(visibleText(section).includes("Answers in their own shape"));
+  for (const name of ["stocks", "qr", "colors"]) {
+    const img = section.match(new RegExp(`<img[^>]*src="media/${name}-1522\\.webp"[^>]*>`))?.[0];
+    assert.ok(img, name);
+    assert.match(img, /srcset="media\/\w+-760\.webp 760w, media\/\w+-1522\.webp 1522w"/, `${name}: a smaller one for phones`);
+    assert.match(img, /width="1522" height="\d+"/, `${name}: its size, so nothing jumps`);
+    assert.match(img, /loading="lazy"/, `${name}: lazy`);
+    assert.match(img, /alt="[^"]{30,}"/, `${name}: described`);
+    for (const width of [760, 1522]) assert.ok(statSync(new URL(`../media/${name}-${width}.webp`, import.meta.url)).size < 80 * 1024);
+  }
+  for (const command of ["stock aapl", "qr", "#c87533", "pick color"]) assert.ok(section.includes(`<span class="mono">${command}</span>`), command);
+  assert.match(css, /\.answers__grid\s*{/);
 });
