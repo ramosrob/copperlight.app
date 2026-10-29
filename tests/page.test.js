@@ -155,7 +155,7 @@ test("icons are drawn, not fallback glyphs", async () => {
   const { entries } = await import("../entries.js");
   const symbols = new Set([...html.matchAll(/<symbol id="([^"]+)"/g)].map(([, id]) => id));
   for (const { icon } of entries.flatMap((entry) => entry.rows)) {
-    assert.ok(/^[A-Z$€=]$/.test(icon) || symbols.has(icon), `icon ${icon}`);
+    assert.ok(/^[A-Z$€=]$/.test(icon) || /^#[0-9a-f]{6}$/.test(icon) || symbols.has(icon), `icon ${icon}`); // #…: a swatch
   }
   for (const [, id] of html.matchAll(/<use href="#([^"]+)"/g)) assert.ok(symbols.has(id), `missing symbol ${id}`);
   assert.doesNotMatch(html + read("entries.js") + read("match.js"), /[◷⎘⌁▦◧▧▤✦⌕≈›]/u);
@@ -272,8 +272,6 @@ test("v0.6: windows, layouts, the Mac's numbers, the selection and ↑, on the p
 
 test("v0.8: the stopwatch, timer until, and what's running waiting when it opens", async () => {
   const text = visibleText(html);
-  assert.ok(text.includes("Download Copperlight 0.8"));
-  assert.ok(html.includes('"softwareVersion": "0.8"'));
   for (const phrase of ["stopwatch", "until 15:30"]) assert.ok(text.includes(phrase), phrase);
   const start = html.indexOf('<p class="kicker">Your day</p>');
   const day = html.slice(start, html.indexOf("</article>", start));
@@ -283,4 +281,30 @@ test("v0.8: the stopwatch, timer until, and what's running waiting when it opens
   const { entries } = await import("../entries.js");
   const keys = entries.flatMap((entry) => entry.keys);
   for (const key of ["stopwatch", "timer until 15:30"]) assert.ok(keys.includes(key), key);
+});
+
+test("v0.9: colors, QR codes, date math and the cursor in snippets, on the page and in the demo", async () => {
+  const text = visibleText(html);
+  assert.ok(text.includes("Download Copperlight 0.9"));
+  assert.ok(html.includes('"softwareVersion": "0.9"'));
+  for (const phrase of ["pick color", "QR code", "days until", "dates", "the cursor"]) assert.ok(text.includes(phrase), phrase);
+  const { entries, modes } = await import("../entries.js");
+  const { match } = await import("../match.js");
+  const keys = entries.flatMap((entry) => entry.keys);
+  for (const key of ["#c87533", "pick color", "qr https://copperlight.app", "days until christmas", "in 3 weeks", "39*8 usd"]) {
+    assert.ok(keys.includes(key), key);
+  }
+  assert.ok(modes.some((mode) => mode.prefix === "qr "));
+  assert.deepEqual(match("#c87533").slice(0, 3).map((row) => row.title), ["rgb(200, 117, 51)", "hsl(27, 59%, 49%)", "#c87533"]);
+  assert.equal(match("#c87533")[0].icon, "#c87533", "a swatch, as in the app");
+  // Worked out from today, so the page is never out of date.
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  let christmas = new Date(today.getFullYear(), 11, 25);
+  if (christmas < today) christmas = new Date(today.getFullYear() + 1, 11, 25);
+  const days = Math.round((christmas - today) / 86400000);
+  assert.equal(match("days until christmas")[0].title, `${days} day${days === 1 ? "" : "s"}`);
+  const later = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 21);
+  assert.equal(match("in 3 weeks")[0].title, later.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }));
+  assert.match(match("in 3 weeks")[0].subtitle, /^In 21 days · week \d+$/);
 });

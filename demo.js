@@ -14,10 +14,16 @@ function span(className, text = "") {
   return element;
 }
 
-// A row's icon: a letter, or one of the drawn icons at the top of index.html ("i-…").
+// A row's icon: a letter, a color's swatch ("#c87533"), or one of the drawn icons at the top of index.html ("i-…").
 function rowIcon(name) {
   const holder = span("row__icon");
   holder.setAttribute("aria-hidden", "true"); // decoration: the title says it
+  if (name.startsWith("#")) {
+    const swatch = span("row__swatch");
+    swatch.style.background = name; // from entries.js, never from what's typed
+    holder.append(swatch);
+    return holder;
+  }
   if (!name.startsWith("i-")) {
     holder.textContent = name;
     return holder;

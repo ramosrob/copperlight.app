@@ -11,9 +11,23 @@ export const modes = [
   { prefix: "add event ", title: "Add Calendar Event", hint: "fri 10am dentist" },
   { prefix: ":quit ", title: "Quit Application", hint: "" },
   { prefix: "timer ", title: "Timer", hint: "10 min tea, 90s, 1h 30m" },
+  { prefix: "qr ", title: "QR Code", hint: "Text or a link, or nothing for what's copied" },
   { prefix: "port ", title: "Port", hint: "A port number, like 3000" },
   { prefix: ":layout ", title: "Layout", hint: "" },
 ];
+
+// Dates are worked out from today, as the app does, so the demo is never out of date.
+const longDate = (date) => date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+const today = () => {
+  const date = new Date();
+  date.setHours(0, 0, 0, 0);
+  return date;
+};
+// ISO 8601: weeks start on Monday, and week 1 holds the year's first Thursday.
+const isoWeek = (date) => {
+  const thursday = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate() + 4 - (date.getDay() || 7)));
+  return Math.ceil(((thursday - Date.UTC(thursday.getUTCFullYear(), 0, 1)) / 86400000 + 1) / 7);
+};
 
 export const entries = [
   {
@@ -52,6 +66,45 @@ export const entries = [
   {
     keys: ["3pm lisbon in sf"],
     rows: [{ icon: "i-clock", title: "7:00 AM", subtitle: "3 PM in Lisbon, in San Francisco", action: "Copy", toast: "Copied 7:00 AM" }],
+  },
+  {
+    keys: ["39*8 usd"],
+    rows: [{ icon: "€", title: "€268.94", subtitle: "39*8 = 312 US Dollars in Euros", action: "Copy", toast: "Copied €268.94" }],
+  },
+  {
+    keys: ["days until christmas", "days until dec 25"],
+    get rows() {
+      const from = today();
+      let christmas = new Date(from.getFullYear(), 11, 25);
+      if (christmas < from) christmas = new Date(from.getFullYear() + 1, 11, 25);
+      const days = Math.round((christmas - from) / 86400000); // rounded: a day with a clock change is 23 or 25 hours
+      const title = `${days} day${days === 1 ? "" : "s"}`;
+      return [{ icon: "i-calendar", title, subtitle: `Until ${longDate(christmas)}`, action: "Copy", toast: `Copied ${title}` }];
+    },
+  },
+  {
+    keys: ["in 3 weeks"],
+    get rows() {
+      const from = today();
+      const later = new Date(from.getFullYear(), from.getMonth(), from.getDate() + 21);
+      return [{ icon: "i-calendar", title: longDate(later), subtitle: `In 21 days · week ${isoWeek(later)}`, action: "Copy", toast: `Copied ${longDate(later)}` }];
+    },
+  },
+  {
+    keys: ["#c87533"],
+    rows: [
+      { icon: "#c87533", title: "rgb(200, 117, 51)", subtitle: "RGB", action: "Copy", toast: "Copied rgb(200, 117, 51)" },
+      { icon: "#c87533", title: "hsl(27, 59%, 49%)", subtitle: "HSL", action: "Copy", toast: "Copied hsl(27, 59%, 49%)" },
+      { icon: "#c87533", title: "#c87533", subtitle: "Hex", action: "Copy", toast: "Copied #c87533" },
+    ],
+  },
+  {
+    keys: ["pick color"],
+    rows: [{ icon: "i-eyedropper", title: "Pick Color", subtitle: "Click anywhere on the screen to copy its color", action: "Pick", toast: "Shows the magnifier: the color you click is copied" }],
+  },
+  {
+    keys: ["qr https://copperlight.app"],
+    rows: [{ icon: "i-qr", title: "https://copperlight.app", subtitle: "QR code", action: "Copy", toast: "Copied the QR code" }],
   },
   {
     keys: ["meetings", "agenda"],

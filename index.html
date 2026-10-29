@@ -52,7 +52,7 @@
         "description": "A free, open source launcher for Mac that takes Spotlight’s place: apps, files, clipboard history, window management, snippets, math and currency, from one hotkey.",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "macOS 15 or later",
-        "softwareVersion": "0.8",
+        "softwareVersion": "0.9",
         "downloadUrl": "https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip",
         "fileSize": "9 MB",
         "license": "https://www.gnu.org/licenses/gpl-3.0.html",
@@ -133,6 +133,8 @@
 <svg class="sprite" aria-hidden="true">
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h4.5"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-eyedropper" viewBox="0 0 24 24"><path d="M13.5 6.5l4 4M15.6 4.4a2.1 2.1 0 0 1 3 0l1 1a2.1 2.1 0 0 1 0 3l-2.1 2.1-4-4 2.1-2.1zM13.5 8.5l-7.6 7.6-.9 3.9 3.9-.9 7.6-7.6"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2.5v2.5H14zM17.5 17.5H20V20h-2.5zM14 20h1M20 14v1"/></symbol>
   <symbol id="i-stopwatch" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V9.5M10 2.5h4M12 2.5V6M17.5 7.5l1.5-1.5"/></symbol>
   <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
   <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4.5" width="14" height="16.5" rx="2.5"/><path d="M9 4.5v-.7c0-.7.6-1.3 1.3-1.3h3.4c.7 0 1.3.6 1.3 1.3v.7M9 11h6M9 15h4"/></symbol>
@@ -206,6 +208,7 @@
         <button type="button" class="chip" data-query=":left">:left</button>
         <button type="button" class="chip" data-query=":export pdf">:export pdf</button>
         <button type="button" class="chip" data-query="meetings">meetings</button>
+        <button type="button" class="chip" data-query="days until christmas">days until christmas</button>
         <button type="button" class="chip" data-query="bluetooth">bluetooth</button>
         <button type="button" class="chip" data-query="battery">battery</button>
         <button type="button" class="chip" data-query=":layout work">:layout work</button>
@@ -230,7 +233,7 @@
         <div class="chapter__text">
           <p class="kicker">Find</p>
           <h2>Everything, from one field.</h2>
-          <p>Apps, files and folders, your browser's bookmarks and history, System Settings pages, math, currency, units, time zones, translations, stock prices, and your Mac’s own numbers: battery, disk space, IP, open ports. No menus to dig through: start typing, press Enter. Select text anywhere first and it’s already typed; <span class="keys"><kbd>↑</kbd></span> brings back what you ran.</p>
+          <p>Apps, files and folders, your browser's bookmarks and history, System Settings pages, math, currency, units, time zones, dates, colors, translations, stock prices, and your Mac’s own numbers: battery, disk space, IP, open ports. No menus to dig through: start typing, press Enter. Select text anywhere first and it’s already typed; <span class="keys"><kbd>↑</kbd></span> brings back what you ran.</p>
         </div>
         <div class="chapter__visual stack" aria-hidden="true">
           <div class="mini"><div class="mini__bar">saf</div><div class="row is-selected"><span class="row__icon" aria-hidden="true">S</span> <span class="row__text"><span class="row__title">Safari</span> <span class="row__subtitle">Application</span></span> <span class="row__action">↵ Open</span></div></div>
@@ -377,7 +380,7 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
         <div class="tool">
           <dt>Snippets</dt>
           <dd class="mono">reply Ana</dd>
-          <dd>The text you type over and over, the name filled in.</dd>
+          <dd>The text you type over and over, the name filled in and the cursor where you want it.</dd>
         </div>
         <div class="tool">
           <dt>Meetings</dt>
@@ -432,7 +435,27 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
         <div class="tool">
           <dt>Text tools</dt>
           <dd class="mono">json</dd>
-          <dd>Format JSON, make a UUID or a password, convert a color.</dd>
+          <dd>Format JSON, make a UUID or a password, encode or hash text.</dd>
+        </div>
+        <div class="tool">
+          <dt>Colors</dt>
+          <dd class="mono">pick color</dd>
+          <dd>Pick a color off the screen, or type one: hex, RGB and HSL, each with its swatch.</dd>
+        </div>
+        <div class="tool">
+          <dt>QR codes</dt>
+          <dd class="mono">qr</dd>
+          <dd>A QR code of a link or any text, or of what you copied, ready to paste.</dd>
+        </div>
+        <div class="tool">
+          <dt>Conversions</dt>
+          <dd class="mono">25 usd to eur</dd>
+          <dd>Currencies, units and time zones, answered as you type, even after some math.</dd>
+        </div>
+        <div class="tool">
+          <dt>Dates</dt>
+          <dd class="mono">days until dec 25</dd>
+          <dd>How long until a date, or what day it is in 3 weeks, asked the way you&rsquo;d say it.</dd>
         </div>
         <div class="tool">
           <dt>Emoji</dt>
@@ -504,7 +527,7 @@ text = <span class="t-s">"Hi {query}, thanks for the note."</span></pre>
       <div class="download__cta">
         <a class="btn btn--primary" href="https://github.com/ramosrob/copperlight/releases/latest/download/Copperlight.zip">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>
-          Download Copperlight 0.8
+          Download Copperlight 0.9
         </a>
         <p class="meta">macOS 15 or later · Apple silicon and Intel · 9 MB</p>
       </div>
