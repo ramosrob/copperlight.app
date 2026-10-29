@@ -183,6 +183,14 @@ export const entries = [
     rows: [{ icon: "i-drive", title: "245 GB free of 994 GB", subtitle: "Macintosh HD · 75% used", action: "Open Storage", toast: "Opens Storage settings" }],
   },
   {
+    keys: ["cpu"],
+    rows: [
+      { icon: "i-terminal", title: "Google Chrome Helper (Renderer)", subtitle: "23.8% CPU · 487 MB · pid 7896", action: "End Process", toast: "Asks first, then ends it" },
+      { icon: "i-terminal", title: "node", subtitle: "14.0% CPU · 692 MB · pid 1085", action: "End Process", toast: "Asks first, then ends node" },
+      { icon: "X", title: "Xcode", subtitle: "6.1% CPU · 2.17 GB · pid 1729", action: "Quit", toast: "Asks first, then quits Xcode, which can ask to save" },
+    ],
+  },
+  {
     keys: ["port 3000", "port"],
     rows: [{ icon: "i-terminal", title: "node", subtitle: "Listening on 3000 · pid 812", action: "End Process", toast: "Asks first, then ends node" }],
   },

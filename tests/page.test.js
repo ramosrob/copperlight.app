@@ -317,7 +317,7 @@ test("v0.9 too: contacts, open tabs, due reminders, text from the screen, spelli
   const { entries } = await import("../entries.js");
   const { match } = await import("../match.js");
   const keys = entries.flatMap((entry) => entry.keys);
-  for (const key of ["ana", "inbox", "due", "copy text", "spell definately", "large 555-0100", "20% off 80", "30 is what % of 150"]) {
+  for (const key of ["ana", "inbox", "due", "copy text", "spell definately", "large 555-0100", "20% off 80", "30 is what % of 150", "cpu"]) {
     assert.ok(keys.includes(key), key);
   }
   assert.equal(match("ana")[0].action, "Message");
