@@ -278,8 +278,25 @@ kbd {
 @media (max-width: 520px) { .bar__mode { height: 32px; padding: 0 12px; margin-left: -8px; font-size: 14px; } }
 .bar--small .bar__mode { height: 32px; padding: 0 13px; margin: 0 10px 0 -12px; font-size: 14.5px; animation: none; }
 .bar--input:focus-within { box-shadow: 0 0 0 7px rgba(232, 140, 74, 0.12), 0 24px 70px -10px rgba(0, 0, 0, 0.7), 0 0 70px -10px rgba(232, 140, 74, 0.45); }
-.demo .results { min-height: 0; }
-.demo .row { cursor: pointer; }
+.demo .results { min-height: 0; position: relative; overflow: hidden; transition: height 0.22s cubic-bezier(0.2, 0.8, 0.2, 1); animation: results-in 0.2s ease; }
+.demo .results.is-empty { display: none; }
+@keyframes results-in { from { opacity: 0; transform: translateY(-4px); } }
+.demo .row { position: relative; cursor: pointer; } /* over the wash */
+.demo .row.is-selected { background: none; border-color: transparent; }
+/* The selected row's wash, one for the list: it slides from row to row, as in the app. */
+.wash {
+  position: absolute; top: 0; left: 8px; right: 8px; border-radius: 13px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(232, 140, 74, 0.22), rgba(232, 140, 74, 0.07));
+  border: 0.5px solid rgba(240, 160, 100, 0.38);
+  transition: transform 0.16s cubic-bezier(0.3, 0.9, 0.35, 1), height 0.16s ease;
+}
+/* The launcher springs in, as it does on ⌥ Space. */
+.demo .launcher { transform-origin: 50% 0; animation: launcher-in 0.5s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes launcher-in { from { opacity: 0; transform: scale(0.96); } }
+/* The tour selects what's there before typing over it, as ⌘A would. */
+.demo.is-selecting .bar--input input {
+  background: linear-gradient(rgba(232, 140, 74, 0.4), rgba(232, 140, 74, 0.4)) no-repeat 0 50% / var(--selected) 1.3em;
+}
 .toast {
   position: absolute; left: 50%; bottom: -54px;
   transform: translate(-50%, 6px);
@@ -381,15 +398,13 @@ kbd {
 .answers__card p { margin: 16px 0 0; font-size: 15px; line-height: 1.5; color: var(--text-2); text-align: center; }
 .answers__card .mono { margin-right: 8px; font-size: 12.5px; padding: 3px 8px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); color: #D8CEC4; white-space: nowrap; }
 .demo:not(.is-live) .answers__card:not(:first-child) { display: none; }
-.demo.is-live .answers__cards { position: relative; transition: height 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.22s ease; }
+.demo.is-live .answers__cards { position: relative; transition: height 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.22s ease; }
 .demo.is-live .answers__card {
   position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(10px) scale(0.985); pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: opacity 0.22s ease, transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.demo.is-live .answers__card.is-current { opacity: 1; transform: none; pointer-events: auto; transition-delay: 0.12s; }
+.demo.is-live .answers__card.is-current { opacity: 1; transform: none; pointer-events: auto; transition-delay: 0.05s; }
 /* As it types, what showed fades, and what the query brings fades in once it's typed. */
-.demo .results { transition: opacity 0.22s ease; }
-.demo.is-quiet .results, .demo.is-quiet .answers__cards { opacity: 0; }
 .demo .chip { position: relative; overflow: hidden; }
 /* While it tours, the example showing fills its chip from the left; it waits, filling, when the tour does. */
 .demo .chip::after {

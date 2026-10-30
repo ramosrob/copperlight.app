@@ -384,3 +384,14 @@ test("the nav asks for a star on GitHub, not for sponsoring", () => {
   assert.match(nav, /<a class="nav__star" href="https:\/\/github\.com\/ramosrob\/copperlight" aria-label="Star Copperlight on GitHub">/);
   assert.ok(!nav.includes("sponsors"), "sponsoring stays in the footer");
 });
+
+// The launcher moved like this in v0.12: the page's should too.
+
+test("the demo moves like the app: rows as it types, the card gliding to them, the selection sliding, the launcher springing in", () => {
+  const js = read("demo.js");
+  assert.ok(!js.includes("is-quiet"), "nothing hides while it types");
+  assert.match(css, /\.demo \.results\s*{[^}]*transition:[^;}]*height/, "the card glides to its rows");
+  assert.match(css, /\.wash\s*{[^}]*transition:[^;}]*transform/, "the selection slides");
+  assert.match(css, /\.demo \.launcher\s*{[^}]*animation:[^;}]*launcher-in/, "it springs in");
+  assert.ok(js.includes('querySelectorAll(":scope > .row")'), "a render keeps the wash, so it can slide");
+});

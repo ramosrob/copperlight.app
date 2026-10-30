@@ -37,9 +37,10 @@ function rowIcon(name) {
 }
 
 // Rows are built from text only, so whatever a visitor types is never read as HTML. With an id prefix, each row gets
-// an id, for the field's aria-activedescendant.
+// an id, for the field's aria-activedescendant. Only the rows are replaced: the demo's wash stays, to slide.
 export function renderRows(container, rows, selected, idPrefix) {
-  container.replaceChildren(...rows.map((row, index) => {
+  container.querySelectorAll(":scope > .row").forEach((row) => row.remove());
+  container.append(...rows.map((row, index) => {
     const element = document.createElement("div");
     element.className = index === selected ? "row is-selected" : "row";
     element.setAttribute("role", "option");
@@ -56,8 +57,9 @@ export function renderRows(container, rows, selected, idPrefix) {
 
 // The hero's launcher, live: type, or pick an example. Most queries answer in rows; one that reads better big shows its
 // card instead (the app's own, rendered), as answers do in the app. Until you type or pick, it tours the examples once,
-// typing each as the app would (a name that takes text becoming its chip, as Tab makes it), then the first stays:
-// moving content shouldn't go on forever. It waits while off screen or under the pointer. Under reduced motion
+// typing each as the app would (the last one selected and typed over, a name that takes text becoming its chip, as Tab
+// makes it), then the first stays: moving content shouldn't go on forever. It moves as the app does: the rows change
+// as it types, the card glides to them, the selection slides from row to row. It waits while off screen or under the pointer. Under reduced motion
 // nothing types or tours, and the examples still show each one.
 const ANSWER_HOLD = 3600;
 export function initDemo(root) {
@@ -67,6 +69,9 @@ export function initDemo(root) {
   const results = root.querySelector("[data-demo-results]");
   const stack = root.querySelector("[data-answers-cards]");
   const status = root.querySelector("[data-demo-status]");
+  const wash = span("wash"); // the selected row's, one for the list so it slides
+  wash.setAttribute("aria-hidden", "true");
+  results.prepend(wash);
   const toast = root.querySelector("[data-demo-toast]");
   const chips = [...root.querySelectorAll("[data-query]")];
   const cards = [...root.querySelectorAll("[data-answer]")];
@@ -94,7 +99,19 @@ export function initDemo(root) {
   // What a screen reader hears for a row: "Safari, Application, Open".
   const describe = (row) => `${row.title}, ${row.subtitle}, ${row.action}`;
   const render = () => {
+    const from = results.offsetHeight; // mid-glide, where it is now
     renderRows(results, rows, selected, "demo-option");
+    results.classList.toggle("is-empty", !rows.length);
+    // The card glides from its height to its rows', which are already there; from nothing it fades in (the CSS).
+    results.style.height = "";
+    const to = results.offsetHeight;
+    if (from && to && from !== to) {
+      results.style.height = `${from}px`;
+      void results.offsetHeight; // the glide starts here
+      results.style.height = `${to}px`;
+    }
+    const row = results.querySelectorAll(":scope > .row")[selected];
+    if (row) wash.style.cssText = `transform: translateY(${row.offsetTop}px); height: ${row.offsetHeight}px`;
     input.setAttribute("aria-expanded", String(rows.length > 0));
     if (rows.length) input.setAttribute("aria-activedescendant", `demo-option-${selected}`);
     else input.removeAttribute("aria-activedescendant");
@@ -110,7 +127,6 @@ export function initDemo(root) {
       c.setAttribute("aria-hidden", String(c !== card));
     });
     fit();
-    root.classList.remove("is-quiet");
     status.textContent = card ? card.querySelector("img").alt : rows.length ? `${describe(rows[0])}. ${rows.length} results.` : "";
     for (const button of chips) {
       const current = button.dataset.query === query();
@@ -194,26 +210,26 @@ export function initDemo(root) {
     });
   }
 
-  // Types `text` as someone would: what's there goes first (a chip in one backspace), then each letter. False if it
-  // was stopped on the way.
+  // Types `text` as someone would: what's there is selected, as ⌘A does, and the first letter types over it; the rows
+  // follow each letter. False if it was stopped on the way.
+  const measure = document.createElement("canvas").getContext("2d");
   async function type(text) {
     const mine = ++run;
-    root.classList.add("is-quiet");
-    while (query()) {
-      if (mode && !input.value) setMode("");
-      else input.value = input.value.slice(0, -1);
-      await wait(24);
+    if (input.value) {
+      measure.font = getComputedStyle(input).font;
+      root.style.setProperty("--selected", `${Math.min(measure.measureText(input.value).width, input.clientWidth)}px`);
+      root.classList.add("is-selecting");
+      await wait(380);
+      root.classList.remove("is-selecting");
       if (mine !== run) return false;
     }
-    await wait(260);
+    if (!text) { setMode(""); show(); } // ⌥ Space: the empty launcher
     for (let end = 1; end <= text.length; end++) {
       setMode(text.slice(0, end));
+      show();
       await wait(48 + Math.random() * 46);
       if (mine !== run) return false;
     }
-    await wait(160);
-    if (mine !== run) return false;
-    show();
     return true;
   }
   // Waits ANSWER_HOLD, counting only while it's on screen and not under the pointer.
