@@ -370,8 +370,6 @@ test("answers in their own shape: the hero's one live launcher tours its example
 
 test("v0.11: answers in their own shape and the weather, on the page and in the demo", async () => {
   const text = visibleText(html);
-  assert.ok(text.includes("Download Copperlight 0.11"));
-  assert.ok(html.includes('"softwareVersion": "0.11"'));
   const section = html.slice(html.indexOf('id="tools"'), html.indexOf('id="principles"'));
   assert.ok([...section.matchAll(/<dd class="mono">([^<]+)<\/dd>/g)].some(([, command]) => command === "weather"));
   assert.ok(text.includes("or the weather when you ask for one"), "the FAQ says when it goes online");
@@ -394,4 +392,17 @@ test("the demo moves like the app: rows as it types, the card gliding to them, t
   assert.match(css, /\.wash\s*{[^}]*transition:[^;}]*transform/, "the selection slides");
   assert.match(css, /\.demo \.launcher\s*{[^}]*animation:[^;}]*launcher-in/, "it springs in");
   assert.ok(js.includes('querySelectorAll(":scope > .row")'), "a render keeps the wash, so it can slide");
+});
+
+test("v0.12: your week, features off, your own keywords and color, typos forgiven, on the page", () => {
+  const text = visibleText(html);
+  for (const phrase of ["your week at a glance", "Turn off any feature", "your own words", "accent color", "typo"]) assert.ok(text.includes(phrase), phrase);
+  assert.ok(text.includes("Download Copperlight 0.12") && html.includes('"softwareVersion": "0.12"')); // with each release
+});
+
+test("one version and one size, wherever the page says them", () => {
+  const versions = new Set([...html.matchAll(/"softwareVersion": "([\d.]+)"|Download Copperlight ([\d.]+)/g)].map((m) => m[1] ?? m[2]));
+  const sizes = new Set([...html.matchAll(/(\d+) MB\b/g)].map((m) => m[1]));
+  assert.equal(versions.size, 1, [...versions].join(", "));
+  assert.equal(sizes.size, 1, [...sizes].join(", "));
 });
